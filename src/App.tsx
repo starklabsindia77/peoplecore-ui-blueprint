@@ -8,6 +8,11 @@ import { Layout } from "./components/Layout";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import Employees from "./pages/Employees";
+import Attendance from "./pages/Attendance";
+import Leave from "./pages/Leave";
+import Reports from "./pages/Reports";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +29,46 @@ const App = () => (
             element={
               <Layout>
                 <Index />
+              </Layout>
+            }
+          />
+          <Route
+            path="/employees"
+            element={
+              <Layout>
+                <Employees />
+              </Layout>
+            }
+          />
+          <Route
+            path="/attendance"
+            element={
+              <Layout>
+                <Attendance />
+              </Layout>
+            }
+          />
+          <Route
+            path="/leave"
+            element={
+              <Layout>
+                <Leave />
+              </Layout>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <Layout>
+                <Reports />
+              </Layout>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <Layout>
+                <Settings />
               </Layout>
             }
           />
