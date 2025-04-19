@@ -17,8 +17,34 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useForm } from "react-hook-form";
 
 export default function Settings() {
+  const companyForm = useForm({
+    defaultValues: {
+      companyName: "Acme Corp",
+      address: "123 Business Street",
+      contactEmail: "hr@acmecorp.com",
+    },
+  });
+
+  const employeeForm = useForm({
+    defaultValues: {
+      probationPeriod: "3",
+      annualLeave: "24",
+    },
+  });
+
+  const onCompanySubmit = (data) => {
+    console.log("Company data submitted:", data);
+    // Handle submission
+  };
+
+  const onEmployeeSubmit = (data) => {
+    console.log("Employee settings submitted:", data);
+    // Handle submission
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -41,37 +67,40 @@ export default function Settings() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Form>
-                <div className="space-y-4">
+              <Form {...companyForm}>
+                <form onSubmit={companyForm.handleSubmit(onCompanySubmit)} className="space-y-4">
                   <FormField
+                    control={companyForm.control}
                     name="companyName"
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>Company Name</FormLabel>
                         <FormControl>
-                          <Input defaultValue="Acme Corp" />
+                          <Input {...field} />
                         </FormControl>
                       </FormItem>
                     )}
                   />
                   <FormField
+                    control={companyForm.control}
                     name="address"
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>Address</FormLabel>
                         <FormControl>
-                          <Input defaultValue="123 Business Street" />
+                          <Input {...field} />
                         </FormControl>
                       </FormItem>
                     )}
                   />
                   <FormField
+                    control={companyForm.control}
                     name="contactEmail"
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>Contact Email</FormLabel>
                         <FormControl>
-                          <Input type="email" defaultValue="hr@acmecorp.com" />
+                          <Input type="email" {...field} />
                         </FormControl>
                         <FormDescription>
                           This email will receive all HR notifications
@@ -79,8 +108,8 @@ export default function Settings() {
                       </FormItem>
                     )}
                   />
-                  <Button>Save Changes</Button>
-                </div>
+                  <Button type="submit">Save Changes</Button>
+                </form>
               </Form>
             </CardContent>
           </Card>
@@ -95,32 +124,34 @@ export default function Settings() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Form>
-                <div className="space-y-4">
+              <Form {...employeeForm}>
+                <form onSubmit={employeeForm.handleSubmit(onEmployeeSubmit)} className="space-y-4">
                   <FormField
+                    control={employeeForm.control}
                     name="probationPeriod"
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>Probation Period (months)</FormLabel>
                         <FormControl>
-                          <Input type="number" defaultValue="3" />
+                          <Input type="number" {...field} />
                         </FormControl>
                       </FormItem>
                     )}
                   />
                   <FormField
+                    control={employeeForm.control}
                     name="annualLeave"
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>Annual Leave Days</FormLabel>
                         <FormControl>
-                          <Input type="number" defaultValue="24" />
+                          <Input type="number" {...field} />
                         </FormControl>
                       </FormItem>
                     )}
                   />
-                  <Button>Save Changes</Button>
-                </div>
+                  <Button type="submit">Save Changes</Button>
+                </form>
               </Form>
             </CardContent>
           </Card>

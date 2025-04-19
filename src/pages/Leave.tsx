@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { FileText } from "lucide-react";
+import { useForm } from "react-hook-form";
 
 const leaveHistory = [
   {
@@ -38,6 +39,20 @@ const leaveHistory = [
 ];
 
 export default function Leave() {
+  const leaveForm = useForm({
+    defaultValues: {
+      leaveType: "Sick Leave",
+      fromDate: "",
+      toDate: "",
+      reason: "",
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log("Leave request submitted:", data);
+    // Handle submission
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -51,15 +66,16 @@ export default function Leave() {
             <CardDescription>Submit a new leave request</CardDescription>
           </CardHeader>
           <CardContent>
-            <Form>
-              <div className="space-y-4">
+            <Form {...leaveForm}>
+              <form onSubmit={leaveForm.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField
+                  control={leaveForm.control}
                   name="leaveType"
-                  render={() => (
+                  render={({ field }) => (
                     <FormItem>
                       <FormLabel>Leave Type</FormLabel>
                       <FormControl>
-                        <select className="w-full p-2 border rounded">
+                        <select className="w-full p-2 border rounded" {...field}>
                           <option>Sick Leave</option>
                           <option>Casual Leave</option>
                           <option>Paid Leave</option>
@@ -70,35 +86,38 @@ export default function Leave() {
                 />
                 <div className="grid gap-4 md:grid-cols-2">
                   <FormField
+                    control={leaveForm.control}
                     name="fromDate"
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>From Date</FormLabel>
                         <FormControl>
-                          <Input type="date" />
+                          <Input type="date" {...field} />
                         </FormControl>
                       </FormItem>
                     )}
                   />
                   <FormField
+                    control={leaveForm.control}
                     name="toDate"
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>To Date</FormLabel>
                         <FormControl>
-                          <Input type="date" />
+                          <Input type="date" {...field} />
                         </FormControl>
                       </FormItem>
                     )}
                   />
                 </div>
                 <FormField
+                  control={leaveForm.control}
                   name="reason"
-                  render={() => (
+                  render={({ field }) => (
                     <FormItem>
                       <FormLabel>Reason</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Enter your reason for leave" />
+                        <Textarea placeholder="Enter your reason for leave" {...field} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -106,7 +125,7 @@ export default function Leave() {
                 <Button type="submit" className="w-full">
                   Submit Request
                 </Button>
-              </div>
+              </form>
             </Form>
           </CardContent>
         </Card>
