@@ -1,15 +1,34 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState } from "react";
 import { Eye, EyeOff, Lock, User } from "lucide-react";
+import { useAuth } from "@/contexts/auth-context";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Login() {
   const [email, setEmail] = useState("admin@acmehr.com");
   const [password, setPassword] = useState("admin123");
-  const [userType, setUserType] = useState("admin");
   const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await login(email, password);
+      toast({
+        title: "Success",
+        description: "Logged in successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Invalid credentials",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
@@ -24,31 +43,11 @@ export default function Login() {
         </div>
 
         {/* Login Form */}
-        <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
+        <form onSubmit={handleLogin} className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
           <div className="mb-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-2">Login</h2>
-            <p className="text-sm text-gray-600">Choose your account type and enter your credentials</p>
+            <p className="text-sm text-gray-600">Enter your credentials to access your account</p>
           </div>
-
-          {/* User Type Selection */}
-          <RadioGroup
-            className="flex gap-4 mb-6 p-1 bg-gray-50 rounded-md"
-            value={userType}
-            onValueChange={setUserType}
-          >
-            <div className={`flex-1 text-center p-2 rounded ${userType === 'admin' ? 'bg-white shadow-sm' : ''}`}>
-              <RadioGroupItem value="admin" id="admin" className="hidden" />
-              <label htmlFor="admin" className="text-sm font-medium cursor-pointer block">
-                Admin
-              </label>
-            </div>
-            <div className={`flex-1 text-center p-2 rounded ${userType === 'employee' ? 'bg-white shadow-sm' : ''}`}>
-              <RadioGroupItem value="employee" id="employee" className="hidden" />
-              <label htmlFor="employee" className="text-sm font-medium cursor-pointer block">
-                Employee
-              </label>
-            </div>
-          </RadioGroup>
 
           {/* Email Input */}
           <div className="space-y-4">
@@ -86,26 +85,20 @@ export default function Login() {
               </button>
             </div>
 
-            <div className="flex items-center justify-between text-sm">
-              <div className="text-gray-600">
-                <a href="#" className="text-blue-600 hover:text-blue-700">
-                  Forgot password?
-                </a>
-              </div>
-            </div>
-
-            <Button className="w-full bg-blue-600 hover:bg-blue-700" size="lg">
+            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" size="lg">
               Sign In
             </Button>
           </div>
-        </div>
+        </form>
 
         {/* Demo Credentials */}
         <div className="mt-6 p-4 bg-white rounded-lg border border-gray-200">
           <p className="text-sm text-gray-500 text-center mb-2">Demo Credentials</p>
           <div className="space-y-1 text-sm text-gray-600">
-            <p className="px-3 py-1 bg-gray-50 rounded">HR Admin: admin@acmehr.com / admin123</p>
-            <p className="px-3 py-1 bg-gray-50 rounded">Employee: employee@acmehr.com / welcome@123</p>
+            <p className="px-3 py-1 bg-gray-50 rounded">Platform Admin: admin@acmehr.com / admin123</p>
+            <p className="px-3 py-1 bg-gray-50 rounded">Company Admin: companyadmin@acmehr.com / admin123</p>
+            <p className="px-3 py-1 bg-gray-50 rounded">HR Manager: hr@acmehr.com / admin123</p>
+            <p className="px-3 py-1 bg-gray-50 rounded">Employee: employee@acmehr.com / admin123</p>
           </div>
         </div>
       </div>

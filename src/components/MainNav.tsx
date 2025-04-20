@@ -1,5 +1,7 @@
 
-import { Home, Users, Calendar, FileText, BarChart2, Settings } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/auth-context";
+import { getNavigationByRole } from "@/lib/navigation-config";
 import {
   SidebarMenu,
   SidebarMenuItem,
@@ -7,21 +9,14 @@ import {
   SidebarGroup,
   SidebarGroupContent,
 } from "./ui/sidebar";
-import { Link, useLocation } from "react-router-dom";
 import { useSidebar } from "./ui/sidebar/sidebar-context";
-
-const navigation = [
-  { name: "Dashboard", href: "/", icon: Home },
-  { name: "Employees", href: "/employees", icon: Users },
-  { name: "Attendance", href: "/attendance", icon: Calendar },
-  { name: "Leave", href: "/leave", icon: FileText },
-  { name: "Reports", href: "/reports", icon: BarChart2 },
-  { name: "Settings", href: "/settings", icon: Settings },
-];
 
 export function MainNav() {
   const location = useLocation();
   const { state } = useSidebar();
+  const { user } = useAuth();
+
+  const navigation = user ? getNavigationByRole(user.role) : [];
 
   return (
     <SidebarGroup>
@@ -30,7 +25,7 @@ export function MainNav() {
           {navigation.map((item) => (
             <SidebarMenuItem key={item.name}>
               <SidebarMenuButton
-                asChild 
+                asChild
                 isActive={location.pathname === item.href}
                 className="hover:bg-white/10 text-gray-300"
                 tooltip={state === "collapsed" ? item.name : undefined}
