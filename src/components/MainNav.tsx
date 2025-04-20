@@ -8,6 +8,8 @@ import {
   SidebarMenuButton,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarSeparator,
+  SidebarGroupLabel,
 } from "./ui/sidebar";
 import { useSidebar } from "./ui/sidebar/sidebar-context";
 
@@ -17,28 +19,64 @@ export function MainNav() {
   const { user } = useAuth();
 
   const navigation = user ? getNavigationByRole(user.role) : [];
+  
+  // Split navigation into main and organization sections
+  const mainNavigation = navigation.slice(0, 6);
+  const orgNavigation = navigation.slice(6);
 
   return (
-    <SidebarGroup>
-      <SidebarGroupContent>
-        <SidebarMenu>
-          {navigation.map((item) => (
-            <SidebarMenuItem key={item.name}>
-              <SidebarMenuButton
-                asChild
-                isActive={location.pathname === item.href}
-                className="hover:bg-white/10 text-gray-300 group"
-                tooltip={state === "collapsed" ? item.name : undefined}
-              >
-                <Link to={item.href}>
-                  <item.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
-                  <span className="font-medium">{item.name}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
+    <>
+      <SidebarGroup>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            {mainNavigation.map((item) => (
+              <SidebarMenuItem key={item.name}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={location.pathname === item.href}
+                  className="hover:bg-white/5 text-gray-300 group h-10"
+                  tooltip={state === "collapsed" ? item.name : undefined}
+                >
+                  <Link to={item.href}>
+                    <item.icon className="h-[18px] w-[18px] transition-transform group-hover:scale-105" />
+                    <span className="font-normal text-sm">{item.name}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+
+      {orgNavigation.length > 0 && (
+        <>
+          <SidebarSeparator className="my-3" />
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-xs font-medium text-gray-500 px-4 mb-2">
+              Organization
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {orgNavigation.map((item) => (
+                  <SidebarMenuItem key={item.name}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={location.pathname === item.href}
+                      className="hover:bg-white/5 text-gray-300 group h-10"
+                      tooltip={state === "collapsed" ? item.name : undefined}
+                    >
+                      <Link to={item.href}>
+                        <item.icon className="h-[18px] w-[18px] transition-transform group-hover:scale-105" />
+                        <span className="font-normal text-sm">{item.name}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </>
+      )}
+    </>
   );
 }
