@@ -26,8 +26,10 @@ const baseNavigation = {
   company_hr: [
     { name: "Dashboard", href: "/", icon: Home },
     { name: "Employees", href: "/employees", icon: Users },
-    { name: "Attendance", href: "/attendance", icon: Calendar },
-    { name: "Leave", href: "/leave", icon: FileText },
+    { name: "Attendance", href: "/attendance", icon: CheckCircle2 },
+    { name: "Leave", href: "/leave", icon: Calendar },
+    { name: "Training", href: "/training", icon: BookOpen },
+    { name: "Health & Safety", href: "/health-safety", icon: HeartPulse },
   ],
   company_employee: [
     { name: "Dashboard", href: "/", icon: Home },

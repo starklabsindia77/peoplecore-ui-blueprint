@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
@@ -13,7 +12,6 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 
-// Mock attendance data per company with employee information
 const attendanceDataByCompany = {
   company1: [
     { 
@@ -53,6 +51,7 @@ export default function Attendance() {
 
   const attendanceData = attendanceDataByCompany[user.companyId] || [];
   const isCompanyAdmin = user.role === "company_admin";
+  const isHR = user.role === "company_hr";
 
   return (
     <div className="space-y-6">
@@ -77,7 +76,7 @@ export default function Attendance() {
         </div>
       </div>
 
-      {isCompanyAdmin && (
+      {(isCompanyAdmin || isHR) && (
         <div className="flex gap-4 items-center">
           <div className="w-[200px]">
             <Select defaultValue="all">
@@ -139,27 +138,34 @@ export default function Attendance() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Today's Attendance</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle>Today's Attendance</CardTitle>
+            {isHR && (
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm">Mark Attendance</Button>
+              </div>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <div className="relative w-full overflow-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
-                  <th className="px-4 py-3 text-left">Employee</th>
-                  <th className="px-4 py-3 text-left">Department</th>
-                  <th className="px-4 py-3 text-left">Status</th>
-                  <th className="px-4 py-3 text-left">Time In</th>
-                  <th className="px-4 py-3 text-left">Time Out</th>
-                  {isCompanyAdmin && <th className="px-4 py-3 text-left">Actions</th>}
+                  <th className="text-left py-3 px-4">Employee</th>
+                  <th className="text-left py-3 px-4">Department</th>
+                  <th className="text-left py-3 px-4">Status</th>
+                  <th className="text-left py-3 px-4">Time In</th>
+                  <th className="text-left py-3 px-4">Time Out</th>
+                  {isCompanyAdmin && <th className="text-left py-3 px-4">Actions</th>}
                 </tr>
               </thead>
               <tbody>
                 {attendanceData.map((record, index) => (
                   <tr key={index} className="border-b">
-                    <td className="px-4 py-3">{record.employeeName}</td>
-                    <td className="px-4 py-3">{record.department}</td>
-                    <td className="px-4 py-3">
+                    <td className="py-3 px-4">{record.employeeName}</td>
+                    <td className="py-3 px-4">{record.department}</td>
+                    <td className="py-3 px-4">
                       <span
                         className={`px-2 py-1 rounded-full text-xs ${
                           record.status === "Present"
@@ -172,8 +178,8 @@ export default function Attendance() {
                         {record.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3">{record.timeIn}</td>
-                    <td className="px-4 py-3">{record.timeOut}</td>
+                    <td className="py-3 px-4">{record.timeIn}</td>
+                    <td className="py-3 px-4">{record.timeOut}</td>
                     {isCompanyAdmin && (
                       <td className="px-4 py-3">
                         <button className="text-blue-600 hover:text-blue-800">
