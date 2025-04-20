@@ -22,17 +22,31 @@ export function LeaveRulesSettings() {
   const form = useForm<LeaveRulesValues>({
     resolver: zodResolver(leaveRulesSchema),
     defaultValues: {
-      annualLeave: "24",
-      sickLeave: "12",
-      casualLeave: "6",
-      maternityLeave: "90",
-      paternityLeave: "14",
+      annualLeave: {
+        days: "24",
+        allocationFrequency: "yearly",
+      },
+      sickLeave: {
+        days: "12",
+        allocationFrequency: "yearly",
+      },
+      casualLeave: {
+        days: "6",
+        allocationFrequency: "yearly",
+      },
+      maternityLeave: {
+        days: "90",
+        allocationFrequency: "yearly",
+      },
+      paternityLeave: {
+        days: "14",
+        allocationFrequency: "yearly",
+      },
       carryForwardDays: "5",
       requireApproval: true,
       allowHalfDay: true,
       minDaysAdvance: "3",
       approvalWorkflow: "single",
-      leaveAllocationFrequency: "yearly",
       autoAllocateLeaves: true,
       advanceLeaveAllowed: false,
     },
