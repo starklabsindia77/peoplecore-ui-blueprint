@@ -34,7 +34,7 @@ export function MainNav() {
                 <SidebarMenuButton
                   asChild
                   isActive={location.pathname === item.href}
-                  className="hover:bg-white/5 text-white/80 group h-10"
+                  className="hover:bg-white/5 text-sidebar-foreground group h-10"
                   tooltip={state === "collapsed" ? item.name : undefined}
                 >
                   <Link to={item.href}>
@@ -52,7 +52,7 @@ export function MainNav() {
         <>
           <SidebarSeparator className="my-3 bg-white/10" />
           <SidebarGroup>
-            <SidebarGroupLabel className="text-xs font-medium text-white/50 px-4 mb-2 group-data-[collapsible=icon]:opacity-0">
+            <SidebarGroupLabel className="text-xs font-medium text-sidebar-foreground/50 px-4 mb-2 group-data-[collapsible=icon]:opacity-0">
               Organization
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -62,7 +62,7 @@ export function MainNav() {
                     <SidebarMenuButton
                       asChild
                       isActive={location.pathname === item.href}
-                      className="hover:bg-white/5 text-white/80 group h-10"
+                      className="hover:bg-white/5 text-sidebar-foreground/80 group h-10"
                       tooltip={state === "collapsed" ? item.name : undefined}
                     >
                       <Link to={item.href}>

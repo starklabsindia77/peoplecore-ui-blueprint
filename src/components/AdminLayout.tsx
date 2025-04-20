@@ -46,7 +46,7 @@ export function AdminLayout({ children, title, actions }: AdminLayoutProps) {
                     <BreadcrumbItem key={index}>
                       <BreadcrumbSeparator />
                       {index === breadcrumbs.length - 1 ? (
-                        <BreadcrumbPage>{crumb.label}</BreadcrumbPage>
+                        <BreadcrumbPage className="text-foreground">{crumb.label}</BreadcrumbPage>
                       ) : (
                         <BreadcrumbLink asChild className="text-primary hover:text-primary-dark">
                           <Link to={`/${breadcrumbs.slice(0, index + 1).map(b => b.path).join('/')}`}>

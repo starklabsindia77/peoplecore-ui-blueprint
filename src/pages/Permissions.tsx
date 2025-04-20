@@ -39,51 +39,51 @@ export default function Permissions() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Permissions</h1>
-        <p className="text-sm text-gray-500 mt-1">Manage system roles and permissions</p>
+        <h1 className="text-2xl font-semibold text-foreground">Permissions</h1>
+        <p className="text-sm text-muted mt-1">Manage system roles and permissions</p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-        <Card className="p-6 bg-white">
+        <Card className="p-6 bg-background">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-purple-50 rounded-lg">
-              <Shield className="h-6 w-6 text-purple-600" />
+            <div className="p-3 bg-primary-light rounded-lg">
+              <Shield className="h-6 w-6 text-primary-dark" />
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Roles</p>
-              <p className="text-2xl font-semibold text-gray-900">4</p>
+              <p className="text-sm font-medium text-muted">Total Roles</p>
+              <p className="text-2xl font-semibold text-foreground">4</p>
             </div>
           </div>
         </Card>
         
-        <Card className="p-6 bg-white">
+        <Card className="p-6 bg-background">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-blue-50 rounded-lg">
-              <Users className="h-6 w-6 text-blue-600" />
+            <div className="p-3 bg-secondary-light rounded-lg">
+              <Users className="h-6 w-6 text-secondary" />
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">Active Users</p>
-              <p className="text-2xl font-semibold text-gray-900">384</p>
+              <p className="text-sm font-medium text-muted">Active Users</p>
+              <p className="text-2xl font-semibold text-foreground">384</p>
             </div>
           </div>
         </Card>
 
-        <Card className="p-6 bg-white">
+        <Card className="p-6 bg-background">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-green-50 rounded-lg">
-              <Key className="h-6 w-6 text-green-600" />
+            <div className="p-3 bg-accent-light rounded-lg">
+              <Key className="h-6 w-6 text-accent" />
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">Permissions</p>
-              <p className="text-2xl font-semibold text-gray-900">12</p>
+              <p className="text-sm font-medium text-muted">Permissions</p>
+              <p className="text-2xl font-semibold text-foreground">12</p>
             </div>
           </div>
         </Card>
       </div>
 
-      <Card className="bg-white">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">System Roles</h2>
+      <Card className="bg-background">
+        <div className="p-6 border-b">
+          <h2 className="text-lg font-medium text-foreground">System Roles</h2>
         </div>
         <Table>
           <TableHeader>
@@ -97,12 +97,12 @@ export default function Permissions() {
           <TableBody>
             {roles.map((role) => (
               <TableRow key={role.id}>
-                <TableCell className="font-medium">{role.name}</TableCell>
-                <TableCell>{role.description}</TableCell>
+                <TableCell className="font-medium text-foreground">{role.name}</TableCell>
+                <TableCell className="text-muted">{role.description}</TableCell>
                 <TableCell>{role.users}</TableCell>
                 <TableCell>
                   {role.permissions.map((permission) => (
-                    <Badge key={permission} className="mr-2 mb-1">
+                    <Badge key={permission} className="mr-2 mb-1 bg-primary text-primary-foreground">
                       {permission}
                     </Badge>
                   ))}

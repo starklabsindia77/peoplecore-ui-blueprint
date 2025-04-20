@@ -19,7 +19,7 @@ export function ReportsGrid({ reports, category }: ReportsGridProps) {
           <ReportCard key={report.id} report={report} />
         ))
       ) : (
-        <div className="col-span-full text-center py-10 text-muted">
+        <div className="col-span-full text-center py-10 text-muted bg-muted-light/30 rounded-md border border-border">
           No reports found in this category.
         </div>
       )}

@@ -12,7 +12,7 @@ export function ReportCard({ report }: ReportCardProps) {
   const Icon = report.icon;
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card className="hover:shadow-lg transition-shadow bg-background border">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center space-x-2">
           <div className="p-2 bg-primary-light rounded-lg">
