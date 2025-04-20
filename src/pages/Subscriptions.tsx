@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -37,68 +38,68 @@ export default function Subscriptions() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Subscriptions</h1>
-        <p className="text-sm text-gray-500 mt-1">Manage company subscriptions and billing</p>
+        <h1 className="text-2xl font-semibold text-foreground">Subscriptions</h1>
+        <p className="text-sm text-muted-foreground mt-1">Manage company subscriptions and billing</p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-        <Card className="p-6 bg-white">
+        <Card className="p-6 bg-card">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-green-50 rounded-lg">
-              <CreditCard className="h-6 w-6 text-green-600" />
+            <div className="p-3 bg-success/20 rounded-lg">
+              <CreditCard className="h-6 w-6 text-success-foreground" />
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">Active Subscriptions</p>
-              <p className="text-2xl font-semibold text-gray-900">18</p>
+              <p className="text-sm font-medium text-muted-foreground">Active Subscriptions</p>
+              <p className="text-2xl font-semibold text-foreground">18</p>
             </div>
           </div>
         </Card>
         
-        <Card className="p-6 bg-white">
+        <Card className="p-6 bg-card">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-yellow-50 rounded-lg">
-              <AlertTriangle className="h-6 w-6 text-yellow-600" />
+            <div className="p-3 bg-warning/20 rounded-lg">
+              <AlertTriangle className="h-6 w-6 text-warning-foreground" />
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">Trial Accounts</p>
-              <p className="text-2xl font-semibold text-gray-900">6</p>
+              <p className="text-sm font-medium text-muted-foreground">Trial Accounts</p>
+              <p className="text-2xl font-semibold text-foreground">6</p>
             </div>
           </div>
         </Card>
 
-        <Card className="p-6 bg-white">
+        <Card className="p-6 bg-card">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-blue-50 rounded-lg">
-              <CheckCircle className="h-6 w-6 text-blue-600" />
+            <div className="p-3 bg-primary/20 rounded-lg">
+              <CheckCircle className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-600">Monthly Revenue</p>
-              <p className="text-2xl font-semibold text-gray-900">$14,500</p>
+              <p className="text-sm font-medium text-muted-foreground">Monthly Revenue</p>
+              <p className="text-2xl font-semibold text-foreground">$14,500</p>
             </div>
           </div>
         </Card>
       </div>
 
-      <Card className="bg-white">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">Subscription Overview</h2>
+      <Card className="bg-card">
+        <div className="p-6 border-b border-border">
+          <h2 className="text-lg font-medium text-foreground">Subscription Overview</h2>
         </div>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Company</TableHead>
-              <TableHead>Plan</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Billing Cycle</TableHead>
-              <TableHead>Next Billing</TableHead>
-              <TableHead>Amount</TableHead>
+              <TableHead className="text-foreground">Company</TableHead>
+              <TableHead className="text-foreground">Plan</TableHead>
+              <TableHead className="text-foreground">Status</TableHead>
+              <TableHead className="text-foreground">Billing Cycle</TableHead>
+              <TableHead className="text-foreground">Next Billing</TableHead>
+              <TableHead className="text-foreground">Amount</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {subscriptionPlans.map((sub) => (
               <TableRow key={sub.id}>
-                <TableCell className="font-medium">{sub.company}</TableCell>
-                <TableCell>{sub.plan}</TableCell>
+                <TableCell className="font-medium text-foreground">{sub.company}</TableCell>
+                <TableCell className="text-foreground">{sub.plan}</TableCell>
                 <TableCell>
                   <Badge variant={
                     sub.status === 'active' ? 'default' :
@@ -107,9 +108,9 @@ export default function Subscriptions() {
                     {sub.status}
                   </Badge>
                 </TableCell>
-                <TableCell>{sub.billingCycle}</TableCell>
-                <TableCell>{sub.nextBilling}</TableCell>
-                <TableCell>{sub.amount}</TableCell>
+                <TableCell className="text-foreground">{sub.billingCycle}</TableCell>
+                <TableCell className="text-foreground">{sub.nextBilling}</TableCell>
+                <TableCell className="text-foreground">{sub.amount}</TableCell>
               </TableRow>
             ))}
           </TableBody>
