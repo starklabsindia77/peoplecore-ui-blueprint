@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -18,6 +17,11 @@ import Settings from "./pages/Settings";
 import Companies from "./pages/Companies";
 import Subscriptions from "./pages/Subscriptions";
 import Permissions from "./pages/Permissions";
+import Departments from "./pages/Departments";
+import Training from "./pages/Training";
+import HealthSafety from "./pages/HealthSafety";
+import Notifications from "./pages/Notifications";
+import Payroll from "./pages/Payroll";
 
 // Create a new query client instance
 const queryClient = new QueryClient();
@@ -125,6 +129,56 @@ const App = () => {
                   <ProtectedRoute>
                     <Layout>
                       <Permissions />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/departments"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Departments />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/training"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Training />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/health-safety"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <HealthSafety />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/notifications"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Notifications />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/payroll"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Payroll />
                     </Layout>
                   </ProtectedRoute>
                 }
