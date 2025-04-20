@@ -4,46 +4,44 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
-    --foreground: 240 10% 3.9%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
     
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card: 240 4.8% 95.9%;
+    --card-foreground: 0 0% 0%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 0 0% 0%;
     
-    --primary: 250 80% 95%;
-    --primary-foreground: 240 10% 3.9%;
+    --primary: 220 13% 91%;
+    --primary-foreground: 0 0% 0%;
     
-    --secondary: 142 76% 95%;
-    --secondary-foreground: 240 10% 3.9%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 0 0% 0%;
     
-    --accent: 30 90% 95%;
-    --accent-foreground: 240 10% 3.9%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 0 0% 0%;
     
-    --destructive: 0 84% 95%;
-    --destructive-foreground: 240 10% 3.9%;
+    --destructive: 0 84% 90%;
+    --destructive-foreground: 0 0% 0%;
     
-    --success: 142 76% 95%;
-    --success-foreground: 240 10% 3.9%;
+    --success: 142 76% 90%;
+    --success-foreground: 0 0% 0%;
     
-    --warning: 38 92% 95%;
-    --warning-foreground: 240 10% 3.9%;
+    --warning: 38 92% 90%;
+    --warning-foreground: 0 0% 0%;
     
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 4% 46%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
     
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 240 10% 3.9%;
-    --sidebar-primary: 250 80% 95%;
-    --sidebar-primary-foreground: 240 10% 3.9%;
-    --sidebar-accent: 142 76% 95%;
-    --sidebar-accent-foreground: 240 10% 3.9%;
+    --sidebar-background: 220 13% 91%;
+    --sidebar-foreground: 0 0% 0%;
+    --sidebar-primary: 220 13% 91%;
+    --sidebar-primary-foreground: 0 0% 0%;
     
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 250 80% 95%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 220 13% 91%;
     --radius: 0.5rem;
   }
 
@@ -76,9 +74,7 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
