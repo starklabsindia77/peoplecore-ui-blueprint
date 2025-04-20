@@ -78,10 +78,11 @@ export default function Training() {
   };
 
   const getStatusBadge = (status: Training["status"]) => {
-    const variants = {
-      pending: "secondary", // Changed from "warning" to a valid variant
-      approved: "default",  // Changed from "success" to a valid variant
-      rejected: "destructive", // This was already a valid variant
+    // Define the mapping with explicit type to ensure we only use valid variants
+    const variants: Record<Training["status"], "secondary" | "default" | "destructive" | "outline"> = {
+      pending: "secondary",
+      approved: "default",
+      rejected: "destructive",
     };
     return <Badge variant={variants[status]}>{status}</Badge>;
   };
