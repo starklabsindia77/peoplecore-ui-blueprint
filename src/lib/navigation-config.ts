@@ -1,3 +1,4 @@
+
 import { Home, Users, Calendar, FileText, BarChart2, Settings, Building, Shield, CreditCard, CheckCircle2, Bell, BookOpen, Briefcase, HeartPulse } from "lucide-react";
 import { UserRole } from "./auth-types";
 
@@ -28,6 +29,7 @@ const baseNavigation = {
     { name: "Employees", href: "/employees", icon: Users },
     { name: "Attendance", href: "/attendance", icon: CheckCircle2 },
     { name: "Leave", href: "/leave", icon: Calendar },
+    { name: "Payroll", href: "/payroll", icon: CreditCard },
     { name: "Training", href: "/training", icon: BookOpen },
     { name: "Health & Safety", href: "/health-safety", icon: HeartPulse },
   ],
