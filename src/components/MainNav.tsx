@@ -8,6 +8,7 @@ import {
   SidebarGroupContent,
 } from "./ui/sidebar";
 import { Link, useLocation } from "react-router-dom";
+import { useSidebar } from "./ui/sidebar/sidebar-context";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: Home },
@@ -20,6 +21,7 @@ const navigation = [
 
 export function MainNav() {
   const location = useLocation();
+  const { state } = useSidebar();
 
   return (
     <SidebarGroup>
@@ -28,13 +30,16 @@ export function MainNav() {
           {navigation.map((item) => (
             <SidebarMenuItem key={item.name}>
               <SidebarMenuButton
-                asChild
+                asChild 
                 isActive={location.pathname === item.href}
                 className="hover:bg-white/10 text-gray-300"
+                tooltip={state === "collapsed" ? item.name : undefined}
               >
                 <Link to={item.href}>
                   <item.icon className="h-4 w-4" />
-                  <span className="font-medium">{item.name}</span>
+                  {state !== "collapsed" && (
+                    <span className="font-medium">{item.name}</span>
+                  )}
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
