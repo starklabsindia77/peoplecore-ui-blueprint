@@ -1,5 +1,6 @@
 
 import { LeaveRulesSettings } from "@/components/settings/LeaveRulesSettings";
+import { HolidayManagement } from "@/components/settings/leave/HolidayManagement";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -24,6 +25,8 @@ export default function LeaveConfiguration() {
       </div>
 
       <LeaveRulesSettings />
+      
+      <HolidayManagement />
 
       <Card>
         <CardHeader>
@@ -33,7 +36,6 @@ export default function LeaveConfiguration() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {/* This will be implemented in the next iteration if requested */}
           <div className="text-sm text-gray-500">
             Coming soon: Add and manage custom leave types
           </div>
@@ -42,3 +44,4 @@ export default function LeaveConfiguration() {
     </div>
   );
 }
+
