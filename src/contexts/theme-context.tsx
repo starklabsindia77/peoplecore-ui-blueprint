@@ -15,25 +15,21 @@ interface ThemeContextType {
   setBrandColors: (colors: Partial<BrandColors>) => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | null>(null);
-
-interface ThemeProviderProps {
-  children: ReactNode;
-  defaultTheme?: Theme;
-  defaultBrandColors?: Partial<BrandColors>;
-}
-
 const DEFAULT_BRAND_COLORS: BrandColors = {
-  primary: "#1a1f2c",
-  secondary: "#9b87f5",
-  accent: "#6E59A5"
+  primary: "#9b87f5",  // Soft Purple
+  secondary: "#7E69AB", // Muted Purple
+  accent: "#1A1F2C"     // Dark Charcoal
 };
 
 export function ThemeProvider({
   children,
   defaultTheme = "system",
   defaultBrandColors = DEFAULT_BRAND_COLORS,
-}: ThemeProviderProps) {
+}: {
+  children: ReactNode;
+  defaultTheme?: Theme;
+  defaultBrandColors?: Partial<BrandColors>;
+}) {
   const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem("theme") as Theme | null;
     return savedTheme || defaultTheme;
@@ -47,17 +43,14 @@ export function ThemeProvider({
   useEffect(() => {
     const root = window.document.documentElement;
     
+    // Apply theme class
     root.classList.remove("light", "dark");
     
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-      root.classList.add(systemTheme);
-    } else {
-      root.classList.add(theme);
-    }
+    const effectiveTheme = theme === "system" 
+      ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+      : theme;
     
+    root.classList.add(effectiveTheme);
     localStorage.setItem("theme", theme);
   }, [theme]);
   
@@ -66,20 +59,12 @@ export function ThemeProvider({
     setBrandColorsState(newColors);
     localStorage.setItem("brandColors", JSON.stringify(newColors));
     
-    // Update CSS variables
+    // Update CSS variables dynamically
     const root = window.document.documentElement;
     Object.entries(newColors).forEach(([key, value]) => {
       root.style.setProperty(`--color-${key}`, value);
     });
   };
-  
-  // Initialize CSS variables
-  useEffect(() => {
-    const root = window.document.documentElement;
-    Object.entries(brandColors).forEach(([key, value]) => {
-      root.style.setProperty(`--color-${key}`, value);
-    });
-  }, [brandColors]);
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, brandColors, setBrandColors }}>

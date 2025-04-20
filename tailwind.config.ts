@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -23,39 +22,55 @@ export default {
         sans: ["Inter", "sans-serif"],
       },
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#9b87f5",
+          foreground: "#FFFFFF",
+          light: "#D6BCFA",
+          dark: "#6E59A5"
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "#7E69AB",
+          foreground: "#FFFFFF",
+          light: "#E5DEFF",
+          dark: "#1A1F2C"
         },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
+        
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "#6E59A5",
+          foreground: "#FFFFFF",
+          light: "#D6BCFA",
+          dark: "#403E43"
         },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+        
+        destructive: {
+          DEFAULT: "#ea384c",
+          foreground: "#FFFFFF"
         },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+        success: {
+          DEFAULT: "#48BB78",
+          foreground: "#FFFFFF"
         },
+        warning: {
+          DEFAULT: "#ED8936",
+          foreground: "#FFFFFF"
+        },
+        
+        muted: {
+          DEFAULT: "#8E9196",
+          foreground: "#FFFFFF",
+          light: "#F1F0FB",
+          dark: "#222222"
+        },
+        
+        sidebar: {
+          background: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          accent: "hsl(var(--sidebar-accent))"
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
