@@ -1,24 +1,14 @@
+
 import { useAuth } from "@/contexts/auth-context";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { Shield, Building, CreditCard, FileText } from "lucide-react";
+import { PlatformGeneralSettings } from "@/components/settings/platform/PlatformGeneralSettings";
+import { SecuritySettings } from "@/components/settings/platform/SecuritySettings";
+import { BillingSettings } from "@/components/settings/platform/BillingSettings";
+import { IntegrationsSettings } from "@/components/settings/platform/IntegrationsSettings";
+import { CompanyGeneralSettings } from "@/components/settings/company/CompanyGeneralSettings";
+import { EmployeeSettings } from "@/components/settings/company/EmployeeSettings";
+import { NotificationSettings } from "@/components/settings/company/NotificationSettings";
 import { SalaryLeaveSettings } from "@/components/settings/SalaryLeaveSettings";
 
 export default function Settings() {
@@ -50,6 +40,29 @@ export default function Settings() {
     },
   });
 
+  const companyForm = useForm({
+    defaultValues: {
+      companyName: "Acme Corp",
+      address: "123 Business Street",
+      contactEmail: "hr@acmecorp.com",
+    },
+  });
+
+  const employeeForm = useForm({
+    defaultValues: {
+      probationPeriod: "3",
+      annualLeave: "24",
+    },
+  });
+
+  const onCompanySubmit = (data: any) => {
+    console.log("Company data submitted:", data);
+  };
+
+  const onEmployeeSubmit = (data: any) => {
+    console.log("Employee settings submitted:", data);
+  };
+
   if (isPlatformAdmin) {
     return (
       <div className="space-y-6">
@@ -71,254 +84,24 @@ export default function Settings() {
           </TabsList>
 
           <TabsContent value="general">
-            <Card>
-              <CardHeader>
-                <CardTitle>Platform Configuration</CardTitle>
-                <CardDescription>
-                  Configure your platform's basic settings
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Form {...platformSettingsForm}>
-                  <form className="space-y-4">
-                    <FormField
-                      control={platformSettingsForm.control}
-                      name="platformName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Platform Name</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={platformSettingsForm.control}
-                      name="supportEmail"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Support Email</FormLabel>
-                          <FormControl>
-                            <Input type="email" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={platformSettingsForm.control}
-                      name="maxCompanies"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Maximum Companies</FormLabel>
-                          <FormControl>
-                            <Input type="number" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={platformSettingsForm.control}
-                      name="defaultTrialDays"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Default Trial Period (days)</FormLabel>
-                          <FormControl>
-                            <Input type="number" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <Button type="submit">Save Changes</Button>
-                  </form>
-                </Form>
-              </CardContent>
-            </Card>
+            <PlatformGeneralSettings form={platformSettingsForm} />
           </TabsContent>
 
           <TabsContent value="security">
-            <Card>
-              <CardHeader>
-                <CardTitle>Security Settings</CardTitle>
-                <CardDescription>
-                  Configure platform-wide security settings
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Form {...securityForm}>
-                  <form className="space-y-4">
-                    <FormField
-                      control={securityForm.control}
-                      name="passwordPolicy"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Password Policy</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={securityForm.control}
-                      name="mfaRequired"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Require MFA</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={securityForm.control}
-                      name="sessionTimeout"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Session Timeout (hours)</FormLabel>
-                          <FormControl>
-                            <Input type="number" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <Button type="submit">Save Changes</Button>
-                  </form>
-                </Form>
-              </CardContent>
-            </Card>
+            <SecuritySettings form={securityForm} />
           </TabsContent>
 
           <TabsContent value="billing">
-            <Card>
-              <CardHeader>
-                <CardTitle>Billing Configuration</CardTitle>
-                <CardDescription>
-                  Configure platform billing settings
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Form {...billingForm}>
-                  <form className="space-y-4">
-                    <FormField
-                      control={billingForm.control}
-                      name="stripeKey"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Stripe API Key</FormLabel>
-                          <FormControl>
-                            <Input type="password" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={billingForm.control}
-                      name="defaultPlan"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Default Plan</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={billingForm.control}
-                      name="taxRate"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Tax Rate (%)</FormLabel>
-                          <FormControl>
-                            <Input type="number" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <Button type="submit">Save Changes</Button>
-                  </form>
-                </Form>
-              </CardContent>
-            </Card>
+            <BillingSettings form={billingForm} />
           </TabsContent>
 
           <TabsContent value="integrations">
-            <Card>
-              <CardHeader>
-                <CardTitle>Platform Integrations</CardTitle>
-                <CardDescription>
-                  Manage third-party service integrations
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="flex items-center space-x-4">
-                      <Shield className="h-8 w-8 text-blue-500" />
-                      <div>
-                        <h4 className="font-medium">Authentication Provider</h4>
-                        <p className="text-sm text-gray-500">Configure SSO and authentication settings</p>
-                      </div>
-                    </div>
-                    <Button variant="outline">Configure</Button>
-                  </div>
-                  
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="flex items-center space-x-4">
-                      <CreditCard className="h-8 w-8 text-green-500" />
-                      <div>
-                        <h4 className="font-medium">Payment Gateway</h4>
-                        <p className="text-sm text-gray-500">Set up payment processing integration</p>
-                      </div>
-                    </div>
-                    <Button variant="outline">Configure</Button>
-                  </div>
-
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="flex items-center space-x-4">
-                      <FileText className="h-8 w-8 text-purple-500" />
-                      <div>
-                        <h4 className="font-medium">Document Storage</h4>
-                        <p className="text-sm text-gray-500">Configure cloud storage provider</p>
-                      </div>
-                    </div>
-                    <Button variant="outline">Configure</Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <IntegrationsSettings />
           </TabsContent>
         </Tabs>
       </div>
     );
   }
-
-  const companyForm = useForm({
-    defaultValues: {
-      companyName: "Acme Corp",
-      address: "123 Business Street",
-      contactEmail: "hr@acmecorp.com",
-    },
-  });
-
-  const employeeForm = useForm({
-    defaultValues: {
-      probationPeriod: "3",
-      annualLeave: "24",
-    },
-  });
-
-  const onCompanySubmit = (data) => {
-    console.log("Company data submitted:", data);
-    // Handle submission
-  };
-
-  const onEmployeeSubmit = (data) => {
-    console.log("Employee settings submitted:", data);
-    // Handle submission
-  };
 
   return (
     <div className="space-y-6">
@@ -335,102 +118,11 @@ export default function Settings() {
         </TabsList>
 
         <TabsContent value="company">
-          <Card>
-            <CardHeader>
-              <CardTitle>Company Information</CardTitle>
-              <CardDescription>
-                Manage your company details and preferences
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...companyForm}>
-                <form onSubmit={companyForm.handleSubmit(onCompanySubmit)} className="space-y-4">
-                  <FormField
-                    control={companyForm.control}
-                    name="companyName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Company Name</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={companyForm.control}
-                    name="address"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Address</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={companyForm.control}
-                    name="contactEmail"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Contact Email</FormLabel>
-                        <FormControl>
-                          <Input type="email" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          This email will receive all HR notifications
-                        </FormDescription>
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit">Save Changes</Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+          <CompanyGeneralSettings form={companyForm} onSubmit={onCompanySubmit} />
         </TabsContent>
 
         <TabsContent value="employees">
-          <Card>
-            <CardHeader>
-              <CardTitle>Employee Settings</CardTitle>
-              <CardDescription>
-                Configure employee-related settings and policies
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...employeeForm}>
-                <form onSubmit={employeeForm.handleSubmit(onEmployeeSubmit)} className="space-y-4">
-                  <FormField
-                    control={employeeForm.control}
-                    name="probationPeriod"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Probation Period (months)</FormLabel>
-                        <FormControl>
-                          <Input type="number" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={employeeForm.control}
-                    name="annualLeave"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Annual Leave Days</FormLabel>
-                        <FormControl>
-                          <Input type="number" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit">Save Changes</Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+          <EmployeeSettings form={employeeForm} onSubmit={onEmployeeSubmit} />
         </TabsContent>
 
         <TabsContent value="salary">
@@ -438,45 +130,7 @@ export default function Settings() {
         </TabsContent>
 
         <TabsContent value="notifications">
-          <Card>
-            <CardHeader>
-              <CardTitle>Notification Preferences</CardTitle>
-              <CardDescription>
-                Manage email and system notifications
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium">Leave Requests</p>
-                    <p className="text-sm text-gray-500">
-                      Notify when employees request leave
-                    </p>
-                  </div>
-                  <Button variant="outline">Configure</Button>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium">Attendance Reports</p>
-                    <p className="text-sm text-gray-500">
-                      Send daily attendance summaries
-                    </p>
-                  </div>
-                  <Button variant="outline">Configure</Button>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium">Payroll Processing</p>
-                    <p className="text-sm text-gray-500">
-                      Notifications for payroll events
-                    </p>
-                  </div>
-                  <Button variant="outline">Configure</Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <NotificationSettings />
         </TabsContent>
       </Tabs>
     </div>
