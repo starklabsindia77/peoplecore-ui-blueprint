@@ -29,7 +29,7 @@ const baseNavigation = {
     { name: "Employees", href: "/employees", icon: Users },
     { name: "Attendance", href: "/attendance", icon: CheckCircle2 },
     { name: "Leave", href: "/leave", icon: Calendar },
-    { name: "Payroll", href: "/payroll", icon: CreditCard },
+    { name: "My Salary", href: "/my-salary", icon: CreditCard },
     { name: "Training", href: "/training", icon: BookOpen },
     { name: "Health & Safety", href: "/health-safety", icon: HeartPulse },
   ],
