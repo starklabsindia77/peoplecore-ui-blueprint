@@ -1,147 +1,114 @@
 
-import { Card } from "@/components/ui/card";
-import { Users, Calendar, FileText, Bell } from "lucide-react";
-import { AttendanceStats } from "../attendance/AttendanceStats";
-import { AttendanceCheckInOut } from "../attendance/AttendanceCheckInOut";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PayrollStats } from "../payroll/PayrollStats";
-import { PayrollHistory } from "../payroll/PayrollHistory";
-import { SalaryBreakdown } from "../attendance/SalaryBreakdown";
 import { useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Users, Calendar, FileText, Bell, UserPlus, ClipboardList, BookOpen, CheckCircle2 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { HRAttendanceManagement } from "../attendance/HRAttendanceManagement";
+import { EmployeeManagement } from "../hr/EmployeeManagement";
+import { LeaveManagement } from "../hr/LeaveManagement";
+import { TrainingManagement } from "../hr/TrainingManagement";
+import { StatsCard } from "./company/StatsCard";
 
 export function HRDashboard() {
-  const [attendance, setAttendance] = useState({
-    isCheckedIn: false,
-    lastCheckIn: undefined,
-    lastCheckOut: undefined,
-  });
+  const [activeTab, setActiveTab] = useState("overview");
 
   const stats = [
     { 
       name: "Total Employees", 
       value: "58", 
-      change: "+8%",
+      change: "+2",
       changeLabel: "from last month",
       icon: Users 
     },
     { 
       name: "Leave Requests", 
-      value: "6", 
+      value: "12", 
       change: "Pending",
       changeLabel: "need review",
       icon: Calendar 
-    }
-  ];
-
-  const attendanceStats = [
-    { title: "Avg. Work Hrs", value: "09:01" },
-    { title: "Actual Work Hrs", value: "09:01" },
-    { title: "Penalty Days", value: "0" }
-  ];
-
-  const payrollStats = [
-    {
-      title: "Total Payroll",
-      value: "$125,000",
-      change: "+2.5%",
-      description: "vs. last month"
     },
-    {
-      title: "Pending Approvals",
-      value: "12",
-      change: "-4",
-      description: "from last week"
+    { 
+      name: "New Applications", 
+      value: "8", 
+      change: "Active",
+      changeLabel: "job postings",
+      icon: UserPlus 
     },
-    {
-      title: "Processing",
-      value: "8",
-      change: "+2",
-      description: "new requests"
-    }
-  ];
-
-  const payrollHistory = [
-    {
-      id: "PR001",
-      date: "2025-04-15",
-      employees: 58,
-      total: "$125,000",
-      status: "Processed"
-    },
-    {
-      id: "PR002",
-      date: "2025-04-01",
-      employees: 56,
-      total: "$122,000",
-      status: "Completed"
+    { 
+      name: "Training Programs", 
+      value: "5", 
+      change: "Ongoing",
+      changeLabel: "courses",
+      icon: BookOpen 
     }
   ];
 
   return (
     <div className="space-y-6">
-      <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="attendance">Attendance</TabsTrigger>
-          <TabsTrigger value="payroll">Payroll</TabsTrigger>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="bg-transparent h-auto p-0">
+          <TabsTrigger 
+            value="overview"
+            className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none px-4 py-2"
+          >
+            <ClipboardList className="h-4 w-4 mr-2" />
+            Overview
+          </TabsTrigger>
+          <TabsTrigger 
+            value="employees"
+            className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none px-4 py-2"
+          >
+            <Users className="h-4 w-4 mr-2" />
+            Employees
+          </TabsTrigger>
+          <TabsTrigger 
+            value="attendance"
+            className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none px-4 py-2"
+          >
+            <CheckCircle2 className="h-4 w-4 mr-2" />
+            Attendance
+          </TabsTrigger>
+          <TabsTrigger 
+            value="leave"
+            className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none px-4 py-2"
+          >
+            <Calendar className="h-4 w-4 mr-2" />
+            Leave
+          </TabsTrigger>
+          <TabsTrigger 
+            value="training"
+            className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none px-4 py-2"
+          >
+            <BookOpen className="h-4 w-4 mr-2" />
+            Training
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {stats.map((stat) => (
-              <Card key={stat.name} className="p-6">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">{stat.name}</p>
-                    <p className="text-2xl font-semibold text-gray-900 mt-2">{stat.value}</p>
-                    <div className="mt-2 flex items-center text-sm">
-                      <span className="text-green-500 font-medium">{stat.change}</span>
-                      <span className="text-gray-500 ml-1">{stat.changeLabel}</span>
-                    </div>
-                  </div>
-                  <div className="p-2 bg-blue-50 rounded-lg">
-                    <stat.icon className="h-5 w-5 text-blue-600" />
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+        <div className="mt-6">
+          <TabsContent value="overview" className="space-y-6">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {stats.map((stat) => (
+                <StatsCard key={stat.name} stat={stat} />
+              ))}
+            </div>
+          </TabsContent>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <SalaryBreakdown
-              month="April"
-              year={2025}
-              basic={37700}
-              hra={15000}
-              allowances={43240}
-              deductions={1800}
-              tds={6180}
-            />
-            <PayrollStats stats={payrollStats} />
-          </div>
-        </TabsContent>
+          <TabsContent value="employees">
+            <EmployeeManagement />
+          </TabsContent>
 
-        <TabsContent value="attendance" className="space-y-6">
-          <div className="grid gap-4 md:grid-cols-2">
-            <Card className="p-6">
-              <AttendanceCheckInOut
-                employeeId="current-user"
-                isCheckedIn={attendance.isCheckedIn}
-                lastCheckIn={attendance.lastCheckIn}
-                lastCheckOut={attendance.lastCheckOut}
-                onCheckIn={() => setAttendance({ ...attendance, isCheckedIn: true, lastCheckIn: new Date().toLocaleTimeString() })}
-                onCheckOut={() => setAttendance({ ...attendance, isCheckedIn: false, lastCheckOut: new Date().toLocaleTimeString() })}
-              />
-            </Card>
-            <Card className="p-6">
-              <AttendanceStats stats={attendanceStats} />
-            </Card>
-          </div>
-        </TabsContent>
+          <TabsContent value="attendance">
+            <HRAttendanceManagement />
+          </TabsContent>
 
-        <TabsContent value="payroll" className="space-y-6">
-          <PayrollHistory records={payrollHistory} />
-        </TabsContent>
+          <TabsContent value="leave">
+            <LeaveManagement />
+          </TabsContent>
+
+          <TabsContent value="training">
+            <TrainingManagement />
+          </TabsContent>
+        </div>
       </Tabs>
     </div>
   );
