@@ -9,6 +9,7 @@ import { SalaryConfigDialog } from "../components/payroll/SalaryConfigDialog";
 import { PayslipDialog } from "../components/payroll/PayslipDialog";
 import { SalaryStructureConfig } from "../components/payroll/SalaryStructureConfig";
 import { PayslipTemplateConfig } from "../components/payroll/PayslipTemplateConfig";
+import { CustomSalaryComponents } from "../components/payroll/CustomSalaryComponents";
 
 const payrollStats = [
   {
