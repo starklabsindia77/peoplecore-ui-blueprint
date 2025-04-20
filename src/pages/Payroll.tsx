@@ -142,6 +142,7 @@ export default function Payroll() {
       <PayrollStats stats={payrollStats} />
 
       <div className="space-y-6">
+        <CustomSalaryComponents />
         <SalaryStructureConfig />
         <PayslipTemplateConfig />
       </div>
