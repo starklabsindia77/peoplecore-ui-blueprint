@@ -1,7 +1,6 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Calendar, Bell, User, FileText, BookOpen, Users, BriefCase, Folder, CreditCard, CheckCircle2, BarChart2 } from "lucide-react";
+import { Calendar, Bell, User, FileText, BookOpen, Users, Briefcase, Folder, CreditCard, CheckCircle2, BarChart2 } from "lucide-react";
 import { AttendanceStats } from "../attendance/AttendanceStats";
 import { AttendanceCheckInOut } from "../attendance/AttendanceCheckInOut";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
