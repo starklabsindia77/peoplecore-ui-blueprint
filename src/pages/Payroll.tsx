@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,8 @@ import {
 } from "@/components/ui/table";
 import { SalaryConfigDialog } from "../components/payroll/SalaryConfigDialog";
 import { PayslipDialog } from "../components/payroll/PayslipDialog";
+import { SalaryStructureConfig } from "../components/payroll/SalaryStructureConfig";
+import { PayslipTemplateConfig } from "../components/payroll/PayslipTemplateConfig";
 
 const payrollStats = [
   {
@@ -191,6 +192,11 @@ export default function Payroll() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      <div className="space-y-6">
+        <SalaryStructureConfig />
+        <PayslipTemplateConfig />
       </div>
 
       {/* Employee Salary Configuration Table */}
