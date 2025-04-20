@@ -1,6 +1,5 @@
-
 import { Card } from "@/components/ui/card";
-import { Users, Calendar, FileText, Building, CheckCircle, AlertTriangle, BarChart2 } from "lucide-react";
+import { Users, Calendar, FileText, Building, CheckCircle, AlertTriangle, BarChart2, Bell, Briefcase, BookOpen } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RevenueChart } from "@/components/dashboard/RevenueChart";
@@ -8,9 +7,49 @@ import { CompanyStatus } from "@/components/dashboard/CompanyStatus";
 
 export default function Index() {
   const { user } = useAuth();
-  
-  // Determine if user is platform admin
   const isPlatformAdmin = user?.role === "platform_admin";
+  const isCompanyAdmin = user?.role === "company_admin";
+
+  // Company admin stats
+  const companyStats = [
+    { 
+      name: "Total Employees", 
+      value: "58", 
+      change: "+8%",
+      changeLabel: "from last month",
+      icon: Users 
+    },
+    { 
+      name: "Departments", 
+      value: "8", 
+      change: "+1",
+      changeLabel: "new department",
+      icon: Briefcase 
+    },
+    { 
+      name: "Active Training", 
+      value: "12", 
+      change: "+3",
+      changeLabel: "new courses",
+      icon: BookOpen 
+    },
+    { 
+      name: "Leave Requests", 
+      value: "6", 
+      change: "Pending",
+      changeLabel: "need review",
+      icon: Calendar 
+    }
+  ];
+
+  // Recent activities for company admin
+  const companyActivities = [
+    { user: "John Doe", action: "completed training", department: "Engineering", time: "2 hours ago" },
+    { user: "Rhea Patel", action: "requested leave", department: "Marketing", time: "4 hours ago" },
+    { user: "Mike Chen", action: "joined team", department: "Product", time: "5 hours ago" },
+    { user: "Sarah Miller", action: "marked attendance", department: "HR", time: "6 hours ago" },
+    { user: "Alex Turner", action: "submitted report", department: "Sales", time: "1 day ago" }
+  ];
 
   // Platform admin stats
   const platformStats = [
@@ -44,43 +83,11 @@ export default function Index() {
     },
   ];
 
-  // Company admin stats
-  const companyStats = [
-    { 
-      name: "Total Employees", 
-      value: "58", 
-      change: "+8%",
-      changeLabel: "from last month",
-      icon: Users 
-    },
-    { 
-      name: "On Leave Today", 
-      value: "4", 
-      change: "+12%",
-      changeLabel: "from last week",
-      icon: Calendar 
-    },
-    { 
-      name: "Payroll Status", 
-      value: "Processed", 
-      change: "Apr 15, 2025",
-      changeLabel: "last processed",
-      icon: FileText 
-    },
-  ];
-
   // Recent activities for platform admin
   const platformActivities = [
     { company: "TechSolutions", action: "subscription upgraded to Pro", time: "2 hours ago" },
     { company: "Acme Designs", action: "trial started", time: "5 hours ago" },
     { company: "Global Systems", action: "subscription expired", time: "1 day ago" },
-  ];
-
-  // Recent activities for company admin
-  const companyActivities = [
-    { user: "John Doe", action: "applied for leave", time: "2 hours ago" },
-    { user: "Rhea Patel", action: "payslip generated", time: "4 hours ago" },
-    { user: "Mike Chen", action: "marked attendance", time: "5 hours ago" },
   ];
 
   const stats = isPlatformAdmin ? platformStats : companyStats;
@@ -167,7 +174,64 @@ export default function Index() {
         </Tabs>
       )}
 
-      {!isPlatformAdmin && (
+      {isCompanyAdmin && (
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {companyStats.map((stat) => (
+              <Card key={stat.name} className="p-6 bg-white">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">{stat.name}</p>
+                    <p className="text-2xl font-semibold text-gray-900 mt-2">{stat.value}</p>
+                    <div className="mt-2 flex items-center text-sm">
+                      <span className="text-green-500 font-medium">{stat.change}</span>
+                      <span className="text-gray-500 ml-1">{stat.changeLabel}</span>
+                    </div>
+                  </div>
+                  <div className="p-2 bg-blue-50 rounded-lg">
+                    <stat.icon className="h-5 w-5 text-blue-600" />
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card className="bg-white">
+              <div className="px-6 py-5 border-b border-gray-200">
+                <h3 className="text-base font-semibold text-gray-900">Recent Activity</h3>
+              </div>
+              <div className="divide-y divide-gray-200">
+                {companyActivities.map((activity, idx) => (
+                  <div key={idx} className="px-6 py-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <span className="font-medium text-gray-900">{activity.user}</span>
+                        <span className="text-gray-600"> {activity.action}</span>
+                        <span className="text-gray-500"> in {activity.department}</span>
+                      </div>
+                      <span className="text-sm text-gray-500">{activity.time}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            <Card className="bg-white">
+              <div className="px-6 py-5 border-b border-gray-200">
+                <h3 className="text-base font-semibold text-gray-900">Department Overview</h3>
+              </div>
+              <div className="p-6">
+                <div className="h-[300px]">
+                  <RevenueChart />
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      )}
+
+      {!isPlatformAdmin && !isCompanyAdmin && (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {stats.map((stat) => (
             <Card key={stat.name} className="p-6 bg-white">
@@ -189,7 +253,7 @@ export default function Index() {
         </div>
       )}
 
-      {!isPlatformAdmin && (
+      {!isPlatformAdmin && !isCompanyAdmin && (
         <Card className="bg-white">
           <div className="px-6 py-5 border-b border-gray-200">
             <h3 className="text-base font-semibold text-gray-900">Recent Activity</h3>

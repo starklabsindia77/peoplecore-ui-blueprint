@@ -1,4 +1,4 @@
-import { Home, Users, Calendar, FileText, BarChart2, Settings, Building, Shield, CreditCard } from "lucide-react";
+import { Home, Users, Calendar, FileText, BarChart2, Settings, Building, Shield, CreditCard, CheckCircle2, Bell, BookOpen, Briefcase, HeartPulse } from "lucide-react";
 import { UserRole } from "./auth-types";
 
 const baseNavigation = {
@@ -13,7 +13,14 @@ const baseNavigation = {
   company_admin: [
     { name: "Dashboard", href: "/", icon: Home },
     { name: "Employees", href: "/employees", icon: Users },
+    { name: "Departments", href: "/departments", icon: Briefcase },
+    { name: "Attendance", href: "/attendance", icon: CheckCircle2 },
+    { name: "Leave Management", href: "/leave", icon: Calendar },
+    { name: "Payroll", href: "/payroll", icon: CreditCard },
+    { name: "Training", href: "/training", icon: BookOpen },
+    { name: "Health & Safety", href: "/health-safety", icon: HeartPulse },
     { name: "Reports", href: "/reports", icon: BarChart2 },
+    { name: "Notifications", href: "/notifications", icon: Bell },
     { name: "Settings", href: "/settings", icon: Settings },
   ],
   company_hr: [
