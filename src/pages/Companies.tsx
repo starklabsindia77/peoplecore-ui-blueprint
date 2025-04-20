@@ -210,192 +210,190 @@ export default function Companies() {
                 <TabsTrigger value="active">Active</TabsTrigger>
                 <TabsTrigger value="trial">Trial</TabsTrigger>
               </TabsList>
-            </Tabs>
-          </div>
+              
+              <TabsContent value="all" className="mt-0">
+                <div className="rounded-md border">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Company</TableHead>
+                        <TableHead>Industry</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Plan</TableHead>
+                        <TableHead className="hidden md:table-cell">Contact</TableHead>
+                        <TableHead className="hidden lg:table-cell">Created</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredCompanies.map((company) => (
+                        <TableRow key={company.id}>
+                          <TableCell className="font-medium">
+                            <div className="flex items-center gap-2">
+                              <div className="bg-gray-100 p-2 rounded-md">
+                                <Building className="h-4 w-4 text-gray-600" />
+                              </div>
+                              <div>
+                                <div>{company.name}</div>
+                                <div className="text-xs text-gray-500">{company.email}</div>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>{company.industry}</TableCell>
+                          <TableCell>{getStatusBadge(company.status)}</TableCell>
+                          <TableCell>{getPlanBadge(company.plan)}</TableCell>
+                          <TableCell className="hidden md:table-cell">{company.contactPerson}</TableCell>
+                          <TableCell className="hidden lg:table-cell">{company.createdAt}</TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end gap-2">
+                              <Dialog>
+                                <DialogTrigger asChild>
+                                  <Button 
+                                    variant="ghost" 
+                                    size="icon"
+                                    onClick={() => setSelectedCompany(company.id)}
+                                  >
+                                    <Eye className="h-4 w-4" />
+                                  </Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[625px]">
+                                  <DialogHeader>
+                                    <DialogTitle>Company Details</DialogTitle>
+                                  </DialogHeader>
+                                  {selectedCompany && (
+                                    <CompanyDetails 
+                                      company={companies.find(c => c.id === selectedCompany)!}
+                                    />
+                                  )}
+                                </DialogContent>
+                              </Dialog>
 
-          <TabsContent value="all" className="mt-0">
-            <div className="rounded-md border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Company</TableHead>
-                    <TableHead>Industry</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Plan</TableHead>
-                    <TableHead className="hidden md:table-cell">Contact</TableHead>
-                    <TableHead className="hidden lg:table-cell">Created</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredCompanies.map((company) => (
-                    <TableRow key={company.id}>
-                      <TableCell className="font-medium">
-                        <div className="flex items-center gap-2">
-                          <div className="bg-gray-100 p-2 rounded-md">
-                            <Building className="h-4 w-4 text-gray-600" />
-                          </div>
-                          <div>
-                            <div>{company.name}</div>
-                            <div className="text-xs text-gray-500">{company.email}</div>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>{company.industry}</TableCell>
-                      <TableCell>{getStatusBadge(company.status)}</TableCell>
-                      <TableCell>{getPlanBadge(company.plan)}</TableCell>
-                      <TableCell className="hidden md:table-cell">{company.contactPerson}</TableCell>
-                      <TableCell className="hidden lg:table-cell">{company.createdAt}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button 
-                                variant="ghost" 
-                                size="icon"
-                                onClick={() => setSelectedCompany(company.id)}
-                              >
+                              <Button variant="ghost" size="icon">
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                              <Button variant="ghost" size="icon" className="text-red-600">
+                                <Trash className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="active" className="mt-0">
+                <div className="rounded-md border">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Company</TableHead>
+                        <TableHead>Industry</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Plan</TableHead>
+                        <TableHead className="hidden md:table-cell">Contact</TableHead>
+                        <TableHead className="hidden lg:table-cell">Created</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredCompanies
+                        .filter(company => company.status === "active")
+                        .map((company) => (
+                        <TableRow key={company.id}>
+                          <TableCell className="font-medium">
+                            <div className="flex items-center gap-2">
+                              <div className="bg-gray-100 p-2 rounded-md">
+                                <Building className="h-4 w-4 text-gray-600" />
+                              </div>
+                              <div>
+                                <div>{company.name}</div>
+                                <div className="text-xs text-gray-500">{company.email}</div>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>{company.industry}</TableCell>
+                          <TableCell>{getStatusBadge(company.status)}</TableCell>
+                          <TableCell>{getPlanBadge(company.plan)}</TableCell>
+                          <TableCell className="hidden md:table-cell">{company.contactPerson}</TableCell>
+                          <TableCell className="hidden lg:table-cell">{company.createdAt}</TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end gap-2">
+                              <Button variant="ghost" size="icon">
                                 <Eye className="h-4 w-4" />
                               </Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-[625px]">
-                              <DialogHeader>
-                                <DialogTitle>Company Details</DialogTitle>
-                              </DialogHeader>
-                              {selectedCompany && (
-                                <CompanyDetails 
-                                  company={companies.find(c => c.id === selectedCompany)!}
-                                />
-                              )}
-                            </DialogContent>
-                          </Dialog>
-
-                          <Button variant="ghost" size="icon">
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon" className="text-red-600">
-                            <Trash className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="active" className="mt-0">
-            {/* Active companies table - similar to the "all" tab but filtered */}
-            <div className="rounded-md border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Company</TableHead>
-                    <TableHead>Industry</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Plan</TableHead>
-                    <TableHead className="hidden md:table-cell">Contact</TableHead>
-                    <TableHead className="hidden lg:table-cell">Created</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredCompanies
-                    .filter(company => company.status === "active")
-                    .map((company) => (
-                    <TableRow key={company.id}>
-                      <TableCell className="font-medium">
-                        <div className="flex items-center gap-2">
-                          <div className="bg-gray-100 p-2 rounded-md">
-                            <Building className="h-4 w-4 text-gray-600" />
-                          </div>
-                          <div>
-                            <div>{company.name}</div>
-                            <div className="text-xs text-gray-500">{company.email}</div>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>{company.industry}</TableCell>
-                      <TableCell>{getStatusBadge(company.status)}</TableCell>
-                      <TableCell>{getPlanBadge(company.plan)}</TableCell>
-                      <TableCell className="hidden md:table-cell">{company.contactPerson}</TableCell>
-                      <TableCell className="hidden lg:table-cell">{company.createdAt}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button variant="ghost" size="icon">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon">
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon" className="text-red-600">
-                            <Trash className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="trial" className="mt-0">
-            {/* Trial companies table */}
-            <div className="rounded-md border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Company</TableHead>
-                    <TableHead>Industry</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Plan</TableHead>
-                    <TableHead className="hidden md:table-cell">Contact</TableHead>
-                    <TableHead className="hidden lg:table-cell">Created</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredCompanies
-                    .filter(company => company.status === "trial")
-                    .map((company) => (
-                    <TableRow key={company.id}>
-                      <TableCell className="font-medium">
-                        <div className="flex items-center gap-2">
-                          <div className="bg-gray-100 p-2 rounded-md">
-                            <Building className="h-4 w-4 text-gray-600" />
-                          </div>
-                          <div>
-                            <div>{company.name}</div>
-                            <div className="text-xs text-gray-500">{company.email}</div>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>{company.industry}</TableCell>
-                      <TableCell>{getStatusBadge(company.status)}</TableCell>
-                      <TableCell>{getPlanBadge(company.plan)}</TableCell>
-                      <TableCell className="hidden md:table-cell">{company.contactPerson}</TableCell>
-                      <TableCell className="hidden lg:table-cell">{company.createdAt}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button variant="ghost" size="icon">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon">
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon" className="text-red-600">
-                            <Trash className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </TabsContent>
+                              <Button variant="ghost" size="icon">
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                              <Button variant="ghost" size="icon" className="text-red-600">
+                                <Trash className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="trial" className="mt-0">
+                <div className="rounded-md border">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Company</TableHead>
+                        <TableHead>Industry</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Plan</TableHead>
+                        <TableHead className="hidden md:table-cell">Contact</TableHead>
+                        <TableHead className="hidden lg:table-cell">Created</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredCompanies
+                        .filter(company => company.status === "trial")
+                        .map((company) => (
+                        <TableRow key={company.id}>
+                          <TableCell className="font-medium">
+                            <div className="flex items-center gap-2">
+                              <div className="bg-gray-100 p-2 rounded-md">
+                                <Building className="h-4 w-4 text-gray-600" />
+                              </div>
+                              <div>
+                                <div>{company.name}</div>
+                                <div className="text-xs text-gray-500">{company.email}</div>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>{company.industry}</TableCell>
+                          <TableCell>{getStatusBadge(company.status)}</TableCell>
+                          <TableCell>{getPlanBadge(company.plan)}</TableCell>
+                          <TableCell className="hidden md:table-cell">{company.contactPerson}</TableCell>
+                          <TableCell className="hidden lg:table-cell">{company.createdAt}</TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end gap-2">
+                              <Button variant="ghost" size="icon">
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                              <Button variant="ghost" size="icon">
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                              <Button variant="ghost" size="icon" className="text-red-600">
+                                <Trash className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
         </div>
       </Card>
     </div>
