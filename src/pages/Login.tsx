@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -87,6 +86,15 @@ export default function Login() {
                 <Link to="/forgot-password" className="text-blue-600 hover:text-blue-700">
                   Forgot password?
                 </Link>
+              </div>
+
+              <div className="text-center mt-4">
+                <p className="text-sm text-gray-600">
+                  Don't have an account? {" "}
+                  <Link to="/signup" className="text-blue-600 hover:text-blue-700">
+                    Create Organization
+                  </Link>
+                </p>
               </div>
 
               <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" size="lg">

@@ -28,6 +28,7 @@ import Announcements from "@/pages/Announcements";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import ResetPassword from "@/pages/ResetPassword";
 import ForgotPassword from "@/pages/ForgotPassword";
+import Signup from "@/pages/Signup";
 
 export const routes: RouteObject[] = [
   {
@@ -51,6 +52,14 @@ export const routes: RouteObject[] = [
     element: (
       <ProtectedRoute requireAuth={false}>
         <ResetPassword />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/signup",
+    element: (
+      <ProtectedRoute requireAuth={false}>
+        <Signup />
       </ProtectedRoute>
     ),
   },
