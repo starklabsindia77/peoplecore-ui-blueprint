@@ -15,6 +15,7 @@ import Attendance from "./pages/Attendance";
 import Leave from "./pages/Leave";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
+import Companies from "./pages/Companies";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,16 @@ const App = () => (
                 <ProtectedRoute>
                   <Layout>
                     <Index />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/companies"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Companies />
                   </Layout>
                 </ProtectedRoute>
               }
