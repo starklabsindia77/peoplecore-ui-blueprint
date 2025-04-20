@@ -32,9 +32,7 @@ export function MainNav() {
               >
                 <Link to={item.href}>
                   <item.icon className="h-4 w-4" />
-                  {state !== "collapsed" && (
-                    <span className="font-medium">{item.name}</span>
-                  )}
+                  <span className="font-medium">{item.name}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
