@@ -5,16 +5,40 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AttendanceStats } from "./AttendanceStats";
+import { AttendanceCheckInOut } from "./AttendanceCheckInOut";
 
 export function HRAttendanceView() {
   const [date, setDate] = useState<Date>();
   const [selectedShift, setSelectedShift] = useState("shift1");
-
+  const [hrAttendance, setHrAttendance] = useState({
+    isCheckedIn: false,
+    lastCheckIn: undefined,
+    lastCheckOut: undefined,
+  });
+  
   const stats = [
     { title: "Avg. Work Hrs", value: "09:01" },
     { title: "Actual Work Hrs", value: "09:01" },
     { title: "Penalty Days", value: "0" }
   ];
+
+  const handleHRCheckIn = () => {
+    const now = new Date().toLocaleTimeString();
+    setHrAttendance({
+      isCheckedIn: true,
+      lastCheckIn: now,
+      lastCheckOut: undefined,
+    });
+  };
+
+  const handleHRCheckOut = () => {
+    const now = new Date().toLocaleTimeString();
+    setHrAttendance({
+      isCheckedIn: false,
+      lastCheckIn: hrAttendance.lastCheckIn,
+      lastCheckOut: now,
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -37,54 +61,63 @@ export function HRAttendanceView() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Shift Details</CardTitle>
-            <Select value={selectedShift} onValueChange={setSelectedShift}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select shift" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="shift1">Shift3-13(S313)</SelectItem>
-                <SelectItem value="shift2">Shift3-14(S314)</SelectItem>
-              </SelectContent>
-            </Select>
-          </CardHeader>
-          <CardContent>
-            <Tabs defaultValue="session" className="w-full">
-              <TabsList>
-                <TabsTrigger value="session">Session Details</TabsTrigger>
-                <TabsTrigger value="status">Status Details</TabsTrigger>
-              </TabsList>
-              <TabsContent value="session">
-                <div className="space-y-4">
-                  <div className="grid grid-cols-3 gap-4 text-sm">
-                    <div className="font-medium">Session</div>
-                    <div className="font-medium">Timing</div>
-                    <div className="font-medium">Status</div>
-                    <div>Session 1</div>
-                    <div>13:00 - 17:30</div>
-                    <div className="text-green-500">Present</div>
-                    <div>Session 2</div>
-                    <div>17:31 - 22:00</div>
-                    <div className="text-green-500">Present</div>
-                  </div>
-                </div>
-              </TabsContent>
-              <TabsContent value="status">
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div className="font-medium">Status</div>
-                    <div className="font-medium">Remarks</div>
-                    <div>Present</div>
-                    <div>Regular working day</div>
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-        </Card>
+        <AttendanceCheckInOut
+          employeeId="current-user"
+          isCheckedIn={hrAttendance.isCheckedIn}
+          lastCheckIn={hrAttendance.lastCheckIn}
+          lastCheckOut={hrAttendance.lastCheckOut}
+          onCheckIn={handleHRCheckIn}
+          onCheckOut={handleHRCheckOut}
+        />
       </div>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>Shift Details</CardTitle>
+          <Select value={selectedShift} onValueChange={setSelectedShift}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select shift" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="shift1">Shift3-13(S313)</SelectItem>
+              <SelectItem value="shift2">Shift3-14(S314)</SelectItem>
+            </SelectContent>
+          </Select>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="session" className="w-full">
+            <TabsList>
+              <TabsTrigger value="session">Session Details</TabsTrigger>
+              <TabsTrigger value="status">Status Details</TabsTrigger>
+            </TabsList>
+            <TabsContent value="session">
+              <div className="space-y-4">
+                <div className="grid grid-cols-3 gap-4 text-sm">
+                  <div className="font-medium">Session</div>
+                  <div className="font-medium">Timing</div>
+                  <div className="font-medium">Status</div>
+                  <div>Session 1</div>
+                  <div>13:00 - 17:30</div>
+                  <div className="text-green-500">Present</div>
+                  <div>Session 2</div>
+                  <div>17:31 - 22:00</div>
+                  <div className="text-green-500">Present</div>
+                </div>
+              </div>
+            </TabsContent>
+            <TabsContent value="status">
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="font-medium">Status</div>
+                  <div className="font-medium">Remarks</div>
+                  <div>Present</div>
+                  <div>Regular working day</div>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
     </div>
   );
 }
