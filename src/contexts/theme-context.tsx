@@ -21,6 +21,9 @@ const DEFAULT_BRAND_COLORS: BrandColors = {
   accent: "#1A1F2C"     // Dark Charcoal
 };
 
+// Create the context with a default value
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
 export function ThemeProvider({
   children,
   defaultTheme = "system",
