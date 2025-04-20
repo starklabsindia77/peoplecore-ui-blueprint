@@ -1,7 +1,21 @@
+
 import { Card } from "@/components/ui/card";
 import { useAuth } from "@/contexts/auth-context";
 import { HRDashboard } from "@/components/dashboard/HRDashboard";
 import { EmployeeDashboard } from "@/components/dashboard/EmployeeDashboard";
+import { 
+  Users, 
+  Briefcase, 
+  BookOpen, 
+  Calendar, 
+  Building, 
+  CheckCircle, 
+  AlertTriangle, 
+  BarChart2 
+} from "lucide-react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { RevenueChart } from "@/components/dashboard/RevenueChart";
+import { CompanyStatus } from "@/components/dashboard/CompanyStatus";
 
 export default function Index() {
   const { user } = useAuth();
