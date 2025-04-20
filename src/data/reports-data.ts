@@ -1,5 +1,4 @@
-
-import { Building, BarChart2, FileText } from "lucide-react";
+import { Building, BarChart2, FileText, CreditCard, Shield, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export interface Report {
@@ -14,8 +13,8 @@ export interface Report {
 export const platformAdminReports: Report[] = [
   {
     id: 1,
-    name: "Companies Growth Report",
-    description: "Monthly new companies and subscription analytics",
+    name: "Companies Overview",
+    description: "Detailed analysis of company growth and activity",
     lastGenerated: "2025-04-19",
     icon: Building,
     category: "companies"
@@ -23,19 +22,35 @@ export const platformAdminReports: Report[] = [
   {
     id: 2,
     name: "Revenue Analytics",
-    description: "Platform revenue and financial metrics",
+    description: "Platform revenue and financial performance metrics",
     lastGenerated: "2025-04-18",
     icon: BarChart2,
     category: "revenue"
   },
   {
     id: 3,
-    name: "Subscription Summary",
-    description: "Active and expired subscriptions overview",
+    name: "Subscription Trends",
+    description: "Analysis of subscription plans and upgrades",
     lastGenerated: "2025-04-15",
-    icon: FileText,
+    icon: CreditCard,
     category: "revenue"
   },
+  {
+    id: 4,
+    name: "User Access Audit",
+    description: "Platform access and permissions audit log",
+    lastGenerated: "2025-04-17",
+    icon: Shield,
+    category: "security"
+  },
+  {
+    id: 5,
+    name: "Platform Usage",
+    description: "Platform feature usage and engagement metrics",
+    lastGenerated: "2025-04-16",
+    icon: Users,
+    category: "companies"
+  }
 ];
 
 export const companyReports: Report[] = [
