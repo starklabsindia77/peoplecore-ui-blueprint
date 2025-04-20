@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -34,6 +33,9 @@ const leaveRulesSchema = z.object({
   allowHalfDay: z.boolean(),
   minDaysAdvance: z.string().min(1, "Required"),
   approvalWorkflow: z.enum(["single", "multi", "auto"]),
+  leaveAllocationFrequency: z.enum(["monthly", "quarterly", "half_yearly", "yearly"]),
+  autoAllocateLeaves: z.boolean(),
+  advanceLeaveAllowed: z.boolean(),
 });
 
 type LeaveRulesValues = z.infer<typeof leaveRulesSchema>;
@@ -54,6 +56,9 @@ export function LeaveRulesSettings() {
       allowHalfDay: true,
       minDaysAdvance: "3",
       approvalWorkflow: "single",
+      leaveAllocationFrequency: "yearly",
+      autoAllocateLeaves: true,
+      advanceLeaveAllowed: false,
     },
   });
 
@@ -216,6 +221,78 @@ export function LeaveRulesSettings() {
                 </FormItem>
               )}
             />
+
+            <div className="border rounded-lg p-4 space-y-4">
+              <h3 className="font-medium">Leave Allocation Settings</h3>
+              
+              <FormField
+                control={form.control}
+                name="leaveAllocationFrequency"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Allocation Frequency</FormLabel>
+                    <FormControl>
+                      <ToggleGroup
+                        type="single"
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        className="justify-start"
+                      >
+                        <ToggleGroupItem value="monthly">Monthly</ToggleGroupItem>
+                        <ToggleGroupItem value="quarterly">Quarterly</ToggleGroupItem>
+                        <ToggleGroupItem value="half_yearly">Half Yearly</ToggleGroupItem>
+                        <ToggleGroupItem value="yearly">Yearly</ToggleGroupItem>
+                      </ToggleGroup>
+                    </FormControl>
+                    <FormDescription>
+                      Choose how often leave days should be allocated to employees
+                    </FormDescription>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="autoAllocateLeaves"
+                render={({ field }) => (
+                  <FormItem className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                      <FormLabel>Auto Allocate Leaves</FormLabel>
+                      <FormDescription>
+                        Automatically allocate leaves based on the frequency
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="advanceLeaveAllowed"
+                render={({ field }) => (
+                  <FormItem className="flex items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                      <FormLabel>Allow Advance Leave</FormLabel>
+                      <FormDescription>
+                        Allow employees to request leaves before allocation
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <Button type="submit">Save Leave Rules</Button>
           </form>
