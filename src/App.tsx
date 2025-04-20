@@ -17,100 +17,103 @@ import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Companies from "./pages/Companies";
 
+// Create a new query client instance
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+const App = () => {
+  return (
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <Routes>
-            <Route 
-              path="/login" 
-              element={
-                <ProtectedRoute requireAuth={false}>
-                  <Login />
-                </ProtectedRoute>
-              } 
-            />
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Index />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/companies"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Companies />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/employees"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Employees />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/attendance"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Attendance />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/leave"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Leave />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/reports"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Reports />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/settings"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Settings />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <Routes>
+              <Route 
+                path="/login" 
+                element={
+                  <ProtectedRoute requireAuth={false}>
+                    <Login />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Index />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/companies"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Companies />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/employees"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Employees />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/attendance"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Attendance />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/leave"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Leave />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/reports"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Reports />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Settings />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </TooltipProvider>
         </AuthProvider>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+      </QueryClientProvider>
+    </BrowserRouter>
+  );
+};
 
 export default App;
