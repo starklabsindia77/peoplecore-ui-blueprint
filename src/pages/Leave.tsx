@@ -20,6 +20,7 @@ import { FileText } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/contexts/auth-context";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Link } from "react-router-dom";
 import {
   Select,
   SelectContent,
@@ -99,7 +100,7 @@ export default function Leave() {
         </div>
         {isCompanyAdmin && (
           <Button variant="outline" asChild>
-            <a href="/leave-configuration">Configure Leave Rules</a>
+            <Link to="/leave-configuration">Configure Leave Rules</Link>
           </Button>
         )}
       </div>
