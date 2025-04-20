@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Holiday } from "./types/holiday";
-import { calendar } from "lucide-react";
+import { Calendar } from "lucide-react"; // Fixed import - 'Calendar' starts with uppercase
 
 // Sample data - in a real app, this would come from your backend
 const sampleHolidays: Holiday[] = [
@@ -48,7 +48,7 @@ export function HolidayManagement() {
             </CardDescription>
           </div>
           <Button variant="outline" className="gap-2">
-            <calendar className="h-4 w-4" />
+            <Calendar className="h-4 w-4" /> {/* Fixed usage - 'Calendar' used as component */}
             Add Holiday
           </Button>
         </div>
@@ -107,4 +107,3 @@ export function HolidayManagement() {
     </Card>
   );
 }
-
