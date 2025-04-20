@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { AttendanceCheckInOut } from "@/components/attendance/AttendanceCheckInOut";
+import { useState } from "react";
 
 const attendanceDataByCompany = {
   company1: [
@@ -47,12 +49,35 @@ const attendanceDataByCompany = {
 
 export default function Attendance() {
   const { user } = useAuth();
+  const [currentUserAttendance, setCurrentUserAttendance] = useState({
+    isCheckedIn: false,
+    lastCheckIn: undefined,
+    lastCheckOut: undefined,
+  });
   
   if (!user) return null;
 
   const attendanceData = attendanceDataByCompany[user.companyId] || [];
   const isCompanyAdmin = user.role === "company_admin";
   const isHR = user.role === "company_hr";
+
+  const handleCheckIn = () => {
+    const now = new Date().toLocaleTimeString();
+    setCurrentUserAttendance({
+      isCheckedIn: true,
+      lastCheckIn: now,
+      lastCheckOut: undefined,
+    });
+  };
+
+  const handleCheckOut = () => {
+    const now = new Date().toLocaleTimeString();
+    setCurrentUserAttendance({
+      isCheckedIn: false,
+      lastCheckIn: currentUserAttendance.lastCheckIn,
+      lastCheckOut: now,
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -76,6 +101,17 @@ export default function Attendance() {
           </Badge>
         </div>
       </div>
+
+      {!isCompanyAdmin && !isHR && (
+        <AttendanceCheckInOut
+          employeeId={user.id}
+          isCheckedIn={currentUserAttendance.isCheckedIn}
+          lastCheckIn={currentUserAttendance.lastCheckIn}
+          lastCheckOut={currentUserAttendance.lastCheckOut}
+          onCheckIn={handleCheckIn}
+          onCheckOut={handleCheckOut}
+        />
+      )}
 
       {(isCompanyAdmin || isHR) && (
         <div className="flex gap-4 items-center">
