@@ -11,8 +11,7 @@ import { SalaryStructureConfig } from "../components/payroll/SalaryStructureConf
 import { PayslipTemplateConfig } from "../components/payroll/PayslipTemplateConfig";
 import { CustomSalaryComponents } from "../components/payroll/CustomSalaryComponents";
 import { useAuth } from "@/contexts/auth-context";
-import { SalaryBreakdown } from "@/components/attendance/SalaryBreakdown";
-import { HRSalaryView } from "@/components/payroll/HRSalaryView";
+import { Navigate } from "react-router-dom";
 
 const payrollStats = [
   {
@@ -108,6 +107,11 @@ export default function Payroll() {
   const [payslipOpen, setPayslipOpen] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
   
+  // Redirect non-admin users to appropriate pages
+  if (!user || user.role !== "company_admin") {
+    return <Navigate to={user?.role === "company_hr" ? "/my-salary" : "/"} />;
+  }
+
   const handleConfigSalary = (employee) => {
     setSelectedEmployee(employee);
     setSalaryConfigOpen(true);
@@ -122,24 +126,20 @@ export default function Payroll() {
     setIsLocked(true);
   };
 
-  const isHR = user?.role === "company_hr";
-  
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-semibold">Payroll Management</h1>
-        {isHR && (
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={handleLockPayroll} disabled={isLocked}>
-              <Calculator className="h-4 w-4 mr-2" />
-              {isLocked ? "Payroll Locked" : "Lock Payroll"}
-            </Button>
-            <Button>
-              <Download className="h-4 w-4 mr-2" />
-              Export Report
-            </Button>
-          </div>
-        )}
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={handleLockPayroll} disabled={isLocked}>
+            <Calculator className="h-4 w-4 mr-2" />
+            {isLocked ? "Payroll Locked" : "Lock Payroll"}
+          </Button>
+          <Button>
+            <Download className="h-4 w-4 mr-2" />
+            Export Report
+          </Button>
+        </div>
       </div>
 
       <CurrentPayrollPeriod 
@@ -147,54 +147,34 @@ export default function Payroll() {
         isLocked={isLocked}
       />
 
-      {isHR && (
-        <>
-          <div className="space-y-6">
-            <HRSalaryView />
-            <PayrollStats stats={payrollStats} />
-            <div className="space-y-6">
-              <CustomSalaryComponents />
-              <SalaryStructureConfig />
-              <PayslipTemplateConfig />
-            </div>
-            <EmployeeSalaryTable 
-              employees={employees}
-              isLocked={isLocked}
-              onConfigSalary={handleConfigSalary}
-              onGeneratePayslip={handleGeneratePayslip}
-            />
-            <PayrollHistory records={recentPayroll} />
-          </div>
-          
-          <SalaryConfigDialog 
-            open={salaryConfigOpen} 
-            onOpenChange={setSalaryConfigOpen} 
-            employee={selectedEmployee} 
-          />
-          
-          <PayslipDialog 
-            open={payslipOpen} 
-            onOpenChange={setPayslipOpen} 
-            employee={selectedEmployee} 
-            payrollPeriod={currentPayrollPeriod}
-          />
-        </>
-      )}
-
-      {!isHR && (
+      <div className="space-y-6">
+        <PayrollStats stats={payrollStats} />
         <div className="space-y-6">
-          <SalaryBreakdown
-            month="April"
-            year={2025}
-            basic={50000}
-            hra={20000}
-            allowances={10000}
-            deductions={5000}
-            tds={2500}
-          />
-          <PayrollHistory records={recentPayroll.filter(record => record.status === "Completed")} />
+          <CustomSalaryComponents />
+          <SalaryStructureConfig />
+          <PayslipTemplateConfig />
         </div>
-      )}
+        <EmployeeSalaryTable 
+          employees={employees}
+          isLocked={isLocked}
+          onConfigSalary={handleConfigSalary}
+          onGeneratePayslip={handleGeneratePayslip}
+        />
+        <PayrollHistory records={recentPayroll} />
+      </div>
+      
+      <SalaryConfigDialog 
+        open={salaryConfigOpen} 
+        onOpenChange={setSalaryConfigOpen} 
+        employee={selectedEmployee} 
+      />
+      
+      <PayslipDialog 
+        open={payslipOpen} 
+        onOpenChange={setPayslipOpen} 
+        employee={selectedEmployee} 
+        payrollPeriod={currentPayrollPeriod}
+      />
     </div>
   );
 }
