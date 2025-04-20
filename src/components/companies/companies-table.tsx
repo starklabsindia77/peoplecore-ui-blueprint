@@ -27,11 +27,11 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
   const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-lg border border-gray-200 bg-white">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>Company</TableHead>
+          <TableRow className="bg-gray-50/50">
+            <TableHead className="w-[300px]">Company</TableHead>
             <TableHead>Industry</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Plan</TableHead>
@@ -44,22 +44,22 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
           {companies.map((company) => (
             <TableRow key={company.id}>
               <TableCell className="font-medium">
-                <div className="flex items-center gap-2">
-                  <div className="bg-gray-100 p-2 rounded-md">
-                    <Building className="h-4 w-4 text-gray-600" />
+                <div className="flex items-center gap-3">
+                  <div className="bg-gray-100/80 p-2 rounded-lg">
+                    <Building className="h-5 w-5 text-gray-600" />
                   </div>
                   <div>
-                    <div>{company.name}</div>
-                    <div className="text-xs text-gray-500">{company.email}</div>
+                    <div className="font-medium text-gray-900">{company.name}</div>
+                    <div className="text-sm text-gray-500">{company.email}</div>
                   </div>
                 </div>
               </TableCell>
-              <TableCell>{company.industry}</TableCell>
+              <TableCell className="text-gray-600">{company.industry}</TableCell>
               <TableCell>{getStatusBadge(company.status)}</TableCell>
               <TableCell>{getPlanBadge(company.plan)}</TableCell>
-              <TableCell className="hidden md:table-cell">{company.contactPerson}</TableCell>
-              <TableCell className="hidden lg:table-cell">{company.createdAt}</TableCell>
-              <TableCell className="text-right">
+              <TableCell className="hidden md:table-cell text-gray-600">{company.contactPerson}</TableCell>
+              <TableCell className="hidden lg:table-cell text-gray-600">{company.createdAt}</TableCell>
+              <TableCell>
                 <div className="flex justify-end gap-2">
                   <Dialog>
                     <DialogTrigger asChild>
@@ -67,8 +67,9 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
                         variant="ghost" 
                         size="icon"
                         onClick={() => setSelectedCompany(company.id)}
+                        className="hover:bg-gray-100"
                       >
-                        <Eye className="h-4 w-4" />
+                        <Eye className="h-4 w-4 text-gray-600" />
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[625px]">
@@ -80,10 +81,10 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
                       )}
                     </DialogContent>
                   </Dialog>
-                  <Button variant="ghost" size="icon">
-                    <Edit className="h-4 w-4" />
+                  <Button variant="ghost" size="icon" className="hover:bg-gray-100">
+                    <Edit className="h-4 w-4 text-gray-600" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="text-red-600">
+                  <Button variant="ghost" size="icon" className="hover:bg-red-50 hover:text-red-600">
                     <Trash className="h-4 w-4" />
                   </Button>
                 </div>

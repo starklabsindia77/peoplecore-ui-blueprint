@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -83,43 +84,43 @@ export default function Companies() {
         <AddCompanyDialog />
       </div>
 
-      <Card>
+      <Card className="border-gray-200">
         <div className="p-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
-            <div className="relative w-full sm:max-w-xs">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <Input 
-                placeholder="Search companies..." 
-                className="pl-9 w-full" 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+          <Tabs defaultValue="all" className="space-y-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="relative w-full sm:max-w-xs">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input 
+                  placeholder="Search companies..." 
+                  className="pl-9 w-full bg-white border-gray-200" 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              
+              <TabsList className="grid w-full sm:w-auto grid-cols-3 h-9 items-center bg-gray-100/80 p-1 text-gray-600">
+                <TabsTrigger value="all" className="px-3">All</TabsTrigger>
+                <TabsTrigger value="active" className="px-3">Active</TabsTrigger>
+                <TabsTrigger value="trial" className="px-3">Trial</TabsTrigger>
+              </TabsList>
             </div>
             
-            <Tabs defaultValue="all" className="w-full sm:w-auto">
-              <TabsList className="grid grid-cols-3 w-full sm:w-auto">
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="active">Active</TabsTrigger>
-                <TabsTrigger value="trial">Trial</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="all" className="mt-0">
-                <CompaniesTable companies={filteredCompanies} />
-              </TabsContent>
-              
-              <TabsContent value="active" className="mt-0">
-                <CompaniesTable 
-                  companies={filteredCompanies.filter(company => company.status === "active")} 
-                />
-              </TabsContent>
-              
-              <TabsContent value="trial" className="mt-0">
-                <CompaniesTable 
-                  companies={filteredCompanies.filter(company => company.status === "trial")} 
-                />
-              </TabsContent>
-            </Tabs>
-          </div>
+            <TabsContent value="all" className="mt-0">
+              <CompaniesTable companies={filteredCompanies} />
+            </TabsContent>
+            
+            <TabsContent value="active" className="mt-0">
+              <CompaniesTable 
+                companies={filteredCompanies.filter(company => company.status === "active")} 
+              />
+            </TabsContent>
+            
+            <TabsContent value="trial" className="mt-0">
+              <CompaniesTable 
+                companies={filteredCompanies.filter(company => company.status === "trial")} 
+              />
+            </TabsContent>
+          </Tabs>
         </div>
       </Card>
     </div>
