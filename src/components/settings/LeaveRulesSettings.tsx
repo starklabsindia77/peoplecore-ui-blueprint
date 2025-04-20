@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -6,39 +7,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
-
-const leaveRulesSchema = z.object({
-  annualLeave: z.string().min(1, "Required"),
-  sickLeave: z.string().min(1, "Required"),
-  casualLeave: z.string().min(1, "Required"),
-  maternityLeave: z.string().min(1, "Required"),
-  paternityLeave: z.string().min(1, "Required"),
-  carryForwardDays: z.string().min(1, "Required"),
-  requireApproval: z.boolean(),
-  allowHalfDay: z.boolean(),
-  minDaysAdvance: z.string().min(1, "Required"),
-  approvalWorkflow: z.enum(["single", "multi", "auto"]),
-  leaveAllocationFrequency: z.enum(["monthly", "quarterly", "half_yearly", "yearly"]),
-  autoAllocateLeaves: z.boolean(),
-  advanceLeaveAllowed: z.boolean(),
-});
-
-type LeaveRulesValues = z.infer<typeof leaveRulesSchema>;
+import { LeaveBasicSettings } from "./leave/LeaveBasicSettings";
+import { LeaveApprovalSettings } from "./leave/LeaveApprovalSettings";
+import { LeaveAllocationSettings } from "./leave/LeaveAllocationSettings";
+import { leaveRulesSchema, type LeaveRulesValues } from "./leave/types";
 
 export function LeaveRulesSettings() {
   const { toast } = useToast();
@@ -81,217 +57,21 @@ export function LeaveRulesSettings() {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid gap-4 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="annualLeave"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Annual Leave Days</FormLabel>
-                    <FormControl>
-                      <Input type="number" min="0" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="sickLeave"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Sick Leave Days</FormLabel>
-                    <FormControl>
-                      <Input type="number" min="0" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="casualLeave"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Casual Leave Days</FormLabel>
-                    <FormControl>
-                      <Input type="number" min="0" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="maternityLeave"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Maternity Leave Days</FormLabel>
-                    <FormControl>
-                      <Input type="number" min="0" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-medium mb-4">Basic Leave Settings</h3>
+                <LeaveBasicSettings form={form} />
+              </div>
 
-            <FormField
-              control={form.control}
-              name="approvalWorkflow"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Approval Workflow</FormLabel>
-                  <FormControl>
-                    <ToggleGroup
-                      type="single"
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      className="justify-start"
-                    >
-                      <ToggleGroupItem value="single">
-                        Single Approver
-                      </ToggleGroupItem>
-                      <ToggleGroupItem value="multi">
-                        Multiple Approvers
-                      </ToggleGroupItem>
-                      <ToggleGroupItem value="auto">
-                        Auto Approval
-                      </ToggleGroupItem>
-                    </ToggleGroup>
-                  </FormControl>
-                  <FormDescription>
-                    Choose how leave requests should be approved
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
+              <div>
+                <h3 className="text-lg font-medium mb-4">Approval Settings</h3>
+                <LeaveApprovalSettings form={form} />
+              </div>
 
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="requireApproval"
-                render={({ field }) => (
-                  <FormItem className="flex items-center justify-between rounded-lg border p-4">
-                    <div className="space-y-0.5">
-                      <FormLabel>Require Approval</FormLabel>
-                      <FormDescription>
-                        Require manager approval for leave requests
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="allowHalfDay"
-                render={({ field }) => (
-                  <FormItem className="flex items-center justify-between rounded-lg border p-4">
-                    <div className="space-y-0.5">
-                      <FormLabel>Allow Half Day</FormLabel>
-                      <FormDescription>
-                        Enable half-day leave requests
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="minDaysAdvance"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Minimum Days in Advance</FormLabel>
-                  <FormControl>
-                    <Input type="number" min="0" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Minimum number of days required to apply for leave in advance
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
-
-            <div className="border rounded-lg p-4 space-y-4">
-              <h3 className="font-medium">Leave Allocation Settings</h3>
-              
-              <FormField
-                control={form.control}
-                name="leaveAllocationFrequency"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Allocation Frequency</FormLabel>
-                    <FormControl>
-                      <ToggleGroup
-                        type="single"
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        className="justify-start"
-                      >
-                        <ToggleGroupItem value="monthly">Monthly</ToggleGroupItem>
-                        <ToggleGroupItem value="quarterly">Quarterly</ToggleGroupItem>
-                        <ToggleGroupItem value="half_yearly">Half Yearly</ToggleGroupItem>
-                        <ToggleGroupItem value="yearly">Yearly</ToggleGroupItem>
-                      </ToggleGroup>
-                    </FormControl>
-                    <FormDescription>
-                      Choose how often leave days should be allocated to employees
-                    </FormDescription>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="autoAllocateLeaves"
-                render={({ field }) => (
-                  <FormItem className="flex items-center justify-between rounded-lg border p-4">
-                    <div className="space-y-0.5">
-                      <FormLabel>Auto Allocate Leaves</FormLabel>
-                      <FormDescription>
-                        Automatically allocate leaves based on the frequency
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="advanceLeaveAllowed"
-                render={({ field }) => (
-                  <FormItem className="flex items-center justify-between rounded-lg border p-4">
-                    <div className="space-y-0.5">
-                      <FormLabel>Allow Advance Leave</FormLabel>
-                      <FormDescription>
-                        Allow employees to request leaves before allocation
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              <div className="border rounded-lg p-4 space-y-4">
+                <h3 className="text-lg font-medium">Leave Allocation Settings</h3>
+                <LeaveAllocationSettings form={form} />
+              </div>
             </div>
 
             <Button type="submit">Save Leave Rules</Button>
