@@ -1,25 +1,71 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "lucide-react";
+import { useAuth } from "@/contexts/auth-context";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
 
-const attendanceData = [
-  { date: "2025-04-19", status: "Present", timeIn: "09:00", timeOut: "17:30" },
-  { date: "2025-04-18", status: "Present", timeIn: "08:55", timeOut: "17:45" },
-  { date: "2025-04-17", status: "Late", timeIn: "10:15", timeOut: "18:00" },
-  { date: "2025-04-16", status: "Present", timeIn: "09:05", timeOut: "17:30" },
-  { date: "2025-04-15", status: "Absent", timeIn: "-", timeOut: "-" },
-];
+// Mock attendance data per company
+const attendanceDataByCompany = {
+  company1: [
+    { date: "2025-04-19", status: "Present", timeIn: "09:00", timeOut: "17:30" },
+    { date: "2025-04-18", status: "Present", timeIn: "08:55", timeOut: "17:45" },
+    { date: "2025-04-17", status: "Late", timeIn: "10:15", timeOut: "18:00" },
+    { date: "2025-04-16", status: "Present", timeIn: "09:05", timeOut: "17:30" },
+    { date: "2025-04-15", status: "Absent", timeIn: "-", timeOut: "-" },
+  ],
+  company2: [
+    { date: "2025-04-19", status: "Present", timeIn: "09:15", timeOut: "17:00" },
+    { date: "2025-04-18", status: "Late", timeIn: "10:00", timeOut: "18:00" },
+  ],
+};
 
 export default function Attendance() {
+  const { user } = useAuth();
+  
+  if (!user) return null;
+
+  const attendanceData = attendanceDataByCompany[user.companyId] || [];
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-semibold">Attendance</h1>
-        <div className="flex items-center space-x-2">
-          <Calendar className="h-5 w-5 text-gray-500" />
-          <span className="text-sm text-gray-500">April 2025</span>
+        <div>
+          <h1 className="text-3xl font-semibold">Attendance</h1>
+          <p className="text-sm text-gray-500">
+            Company: {user.company.name}
+          </p>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center space-x-2">
+            <Calendar className="h-5 w-5 text-gray-500" />
+            <span className="text-sm text-gray-500">April 2025</span>
+          </div>
+          <Badge 
+            variant={user.company.subscriptionStatus === 'active' ? 'default' : 'secondary'}
+            className="ml-2"
+          >
+            {user.company.subscriptionPlan.toUpperCase()}
+          </Badge>
         </div>
       </div>
+
+      {user.company.subscriptionStatus === 'trial' && (
+        <Alert>
+          <AlertTitle>Trial Period</AlertTitle>
+          <AlertDescription>
+            Your company's trial period ends on {user.company.trialEndsAt}. Upgrade to continue accessing all features.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {user.company.subscriptionStatus === 'expired' && (
+        <Alert variant="destructive">
+          <AlertTitle>Subscription Expired</AlertTitle>
+          <AlertDescription>
+            Your company's subscription has expired. Please renew to continue accessing attendance features.
+          </AlertDescription>
+        </Alert>
+      )}
 
       <div className="grid gap-4 md:grid-cols-4">
         <Card>

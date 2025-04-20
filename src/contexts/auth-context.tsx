@@ -3,31 +3,57 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { User, UserRole } from "@/lib/auth-types";
 import { useNavigate } from "react-router-dom";
 
-// Mock users for demonstration
+// Mock companies
+const MOCK_COMPANIES = {
+  "company1": {
+    id: "company1",
+    name: "Acme Corp",
+    subscriptionStatus: "active",
+    subscriptionPlan: "pro",
+    trialEndsAt: "2025-05-20",
+  },
+  "company2": {
+    id: "company2",
+    name: "Tech Solutions",
+    subscriptionStatus: "trial",
+    subscriptionPlan: "basic",
+    trialEndsAt: "2025-05-01",
+  },
+};
+
+// Mock users with company data
 const MOCK_USERS: Record<string, User> = {
   "admin@acmehr.com": {
     id: "1",
     name: "Platform Admin",
     email: "admin@acmehr.com",
     role: "platform_admin",
+    companyId: "company1",
+    company: MOCK_COMPANIES["company1"],
   },
   "companyadmin@acmehr.com": {
     id: "2",
     name: "Company Admin",
     email: "companyadmin@acmehr.com",
     role: "company_admin",
+    companyId: "company1",
+    company: MOCK_COMPANIES["company1"],
   },
   "hr@acmehr.com": {
     id: "3",
     name: "HR Manager",
     email: "hr@acmehr.com",
     role: "company_hr",
+    companyId: "company1",
+    company: MOCK_COMPANIES["company1"],
   },
   "employee@acmehr.com": {
     id: "4",
     name: "John Employee",
     email: "employee@acmehr.com",
     role: "company_employee",
+    companyId: "company1",
+    company: MOCK_COMPANIES["company1"],
   },
 };
 
