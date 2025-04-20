@@ -1,9 +1,17 @@
 
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Calendar, Bell } from "lucide-react";
+import { Calendar, Bell, User, FileText, BookOpen, Users, BriefCase, Folder, CreditCard, CheckCircle2, BarChart2 } from "lucide-react";
 import { AttendanceStats } from "../attendance/AttendanceStats";
 import { AttendanceCheckInOut } from "../attendance/AttendanceCheckInOut";
-import { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CompanyDirectory } from "../employee/CompanyDirectory";
+import { DocumentManagement } from "../employee/DocumentManagement";
+import { PersonalProfile } from "../employee/PersonalProfile";
+import { Performance } from "../employee/Performance";
+import { ExpenseClaims } from "../employee/ExpenseClaims";
+import { Announcements } from "../employee/Announcements";
+import { StatsCard } from "./company/StatsCard";
 
 export function EmployeeDashboard() {
   const [attendance, setAttendance] = useState({
@@ -11,6 +19,8 @@ export function EmployeeDashboard() {
     lastCheckIn: undefined,
     lastCheckOut: undefined,
   });
+
+  const [activeTab, setActiveTab] = useState("overview");
 
   const stats = [
     { 
@@ -35,43 +45,135 @@ export function EmployeeDashboard() {
     { title: "Penalty Days", value: "0" }
   ];
 
+  // Enhanced stats for the overview
+  const overviewStats = [
+    ...stats,
+    { 
+      name: "Pending Tasks", 
+      value: "5", 
+      change: "Tasks",
+      changeLabel: "due this week",
+      icon: CheckCircle2
+    },
+    { 
+      name: "Learning Progress", 
+      value: "70%", 
+      change: "Complete",
+      changeLabel: "current course",
+      icon: BookOpen 
+    },
+  ];
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "overview":
+        return (
+          <div className="space-y-6">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {overviewStats.map((stat) => (
+                <StatsCard key={stat.name} stat={stat} />
+              ))}
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <Card className="p-6">
+                <AttendanceCheckInOut
+                  employeeId="current-user"
+                  isCheckedIn={attendance.isCheckedIn}
+                  lastCheckIn={attendance.lastCheckIn}
+                  lastCheckOut={attendance.lastCheckOut}
+                  onCheckIn={() => setAttendance({ ...attendance, isCheckedIn: true, lastCheckIn: new Date().toLocaleTimeString() })}
+                  onCheckOut={() => setAttendance({ ...attendance, isCheckedIn: false, lastCheckOut: new Date().toLocaleTimeString() })}
+                />
+              </Card>
+              <Card className="p-6">
+                <AttendanceStats stats={attendanceStats} />
+              </Card>
+            </div>
+            
+            <div className="mt-6">
+              <h2 className="text-lg font-medium mb-4">Recent Announcements</h2>
+              <Announcements />
+            </div>
+          </div>
+        );
+      case "profile":
+        return <PersonalProfile />;
+      case "documents":
+        return <DocumentManagement />;
+      case "directory":
+        return <CompanyDirectory />;
+      case "performance":
+        return <Performance />;
+      case "expenses":
+        return <ExpenseClaims />;
+      case "announcements":
+        return <Announcements />;
+      default:
+        return <div>Select a tab</div>;
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <Card key={stat.name} className="p-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">{stat.name}</p>
-                <p className="text-2xl font-semibold text-gray-900 mt-2">{stat.value}</p>
-                <div className="mt-2 flex items-center text-sm">
-                  <span className="text-green-500 font-medium">{stat.change}</span>
-                  <span className="text-gray-500 ml-1">{stat.changeLabel}</span>
-                </div>
-              </div>
-              <div className="p-2 bg-blue-50 rounded-lg">
-                <stat.icon className="h-5 w-5 text-blue-600" />
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card className="p-6">
-          <AttendanceCheckInOut
-            employeeId="current-user"
-            isCheckedIn={attendance.isCheckedIn}
-            lastCheckIn={attendance.lastCheckIn}
-            lastCheckOut={attendance.lastCheckOut}
-            onCheckIn={() => setAttendance({ ...attendance, isCheckedIn: true, lastCheckIn: new Date().toLocaleTimeString() })}
-            onCheckOut={() => setAttendance({ ...attendance, isCheckedIn: false, lastCheckOut: new Date().toLocaleTimeString() })}
-          />
-        </Card>
-        <Card className="p-6">
-          <AttendanceStats stats={attendanceStats} />
-        </Card>
-      </div>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <div className="border-b">
+          <TabsList className="bg-transparent h-auto p-0">
+            <TabsTrigger 
+              value="overview"
+              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none px-4 py-2"
+            >
+              <BarChart2 className="h-4 w-4 mr-2" />
+              Overview
+            </TabsTrigger>
+            <TabsTrigger 
+              value="profile"
+              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none px-4 py-2"
+            >
+              <User className="h-4 w-4 mr-2" />
+              Profile
+            </TabsTrigger>
+            <TabsTrigger 
+              value="documents"
+              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none px-4 py-2"
+            >
+              <FileText className="h-4 w-4 mr-2" />
+              Documents
+            </TabsTrigger>
+            <TabsTrigger 
+              value="directory"
+              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none px-4 py-2"
+            >
+              <Users className="h-4 w-4 mr-2" />
+              Directory
+            </TabsTrigger>
+            <TabsTrigger 
+              value="performance"
+              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none px-4 py-2"
+            >
+              <BarChart2 className="h-4 w-4 mr-2" />
+              Performance
+            </TabsTrigger>
+            <TabsTrigger 
+              value="expenses"
+              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none px-4 py-2"
+            >
+              <CreditCard className="h-4 w-4 mr-2" />
+              Expenses
+            </TabsTrigger>
+            <TabsTrigger 
+              value="announcements"
+              className="data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none px-4 py-2"
+            >
+              <Bell className="h-4 w-4 mr-2" />
+              Announcements
+            </TabsTrigger>
+          </TabsList>
+        </div>
+        <div className="mt-4">
+          {renderTabContent()}
+        </div>
+      </Tabs>
     </div>
   );
 }

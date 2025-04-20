@@ -1,5 +1,5 @@
 
-import { Home, Users, Calendar, FileText, BarChart2, Settings, Building, Shield, CreditCard, CheckCircle2, Bell, BookOpen, Briefcase, HeartPulse } from "lucide-react";
+import { Home, Users, Calendar, FileText, BarChart2, Settings, Building, Shield, CreditCard, CheckCircle2, Bell, BookOpen, Briefcase, HeartPulse, User, Folder, Download } from "lucide-react";
 import { UserRole } from "./auth-types";
 
 const baseNavigation = {
@@ -35,8 +35,16 @@ const baseNavigation = {
   ],
   company_employee: [
     { name: "Dashboard", href: "/", icon: Home },
-    { name: "Attendance Info", href: "/attendance-info", icon: CheckCircle2 },
-    { name: "My Leave", href: "/leave", icon: Calendar },
+    { name: "My Profile", href: "/profile", icon: User },
+    { name: "Attendance", href: "/attendance-info", icon: CheckCircle2 },
+    { name: "Leave", href: "/leave", icon: Calendar },
+    { name: "Documents", href: "/documents", icon: FileText },
+    { name: "Directory", href: "/directory", icon: Users },
+    { name: "Expenses", href: "/expenses", icon: CreditCard },
+    { name: "Performance", href: "/performance", icon: BarChart2 },
+    { name: "Training", href: "/training", icon: BookOpen },
+    { name: "Salary", href: "/my-salary", icon: Download },
+    { name: "Announcements", href: "/announcements", icon: Bell },
   ],
 };
 

@@ -20,6 +20,12 @@ import Payroll from "@/pages/Payroll";
 import LeaveConfiguration from "@/pages/LeaveConfiguration";
 import MySalary from "@/pages/MySalary";
 import AttendanceInfo from "@/pages/AttendanceInfo";
+import Profile from "@/pages/Profile";
+import Documents from "@/pages/Documents";
+import Directory from "@/pages/Directory";
+import Performance from "@/pages/Performance";
+import Expenses from "@/pages/Expenses";
+import Announcements from "@/pages/Announcements";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 export const routes: RouteObject[] = [
@@ -197,6 +203,67 @@ export const routes: RouteObject[] = [
       <ProtectedRoute>
         <Layout>
           <AttendanceInfo />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  // New employee role routes
+  {
+    path: "/profile",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <Profile />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/documents",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <Documents />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/directory",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <Directory />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/performance",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <Performance />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/expenses",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <Expenses />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/announcements",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <Announcements />
         </Layout>
       </ProtectedRoute>
     ),
