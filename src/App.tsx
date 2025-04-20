@@ -24,6 +24,7 @@ import Notifications from "./pages/Notifications";
 import Payroll from "./pages/Payroll";
 import LeaveConfiguration from "./pages/LeaveConfiguration";
 import MySalary from "./pages/MySalary";
+import AttendanceInfo from "./pages/AttendanceInfo";
 
 // Create a new query client instance
 const queryClient = new QueryClient();
@@ -201,6 +202,16 @@ const App = () => {
                   <ProtectedRoute>
                     <Layout>
                       <MySalary />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/attendance-info"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <AttendanceInfo />
                     </Layout>
                   </ProtectedRoute>
                 }
