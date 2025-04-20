@@ -1,4 +1,3 @@
-
 import { UserButton } from "./UserButton";
 import { MainNav } from "./MainNav";
 import { 
@@ -8,8 +7,7 @@ import {
   SidebarHeader,
   SidebarTrigger,
   SidebarRail,
-  SidebarGroup,
-  SidebarSeparator
+  SidebarGroup
 } from "./ui/sidebar";
 import { Search } from "lucide-react";
 import { Input } from "./ui/input";
@@ -23,9 +21,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center space-x-3">
                 <div className="bg-blue-600 text-white h-8 w-8 rounded-md flex items-center justify-center font-medium text-sm">
-                  G
+                  E
                 </div>
-                <h1 className="text-base font-medium text-gray-100 group-data-[collapsible=icon]:hidden">Gemini Hire</h1>
+                <h1 className="text-base font-medium text-gray-100 group-data-[collapsible=icon]:hidden">Empora</h1>
               </div>
               <SidebarTrigger 
                 className="text-gray-400 hover:text-white transition-colors" 
