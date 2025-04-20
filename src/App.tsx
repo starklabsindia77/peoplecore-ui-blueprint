@@ -16,6 +16,8 @@ import Leave from "./pages/Leave";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Companies from "./pages/Companies";
+import Subscriptions from "./pages/Subscriptions";
+import Permissions from "./pages/Permissions";
 
 // Create a new query client instance
 const queryClient = new QueryClient();
@@ -103,6 +105,26 @@ const App = () => {
                   <ProtectedRoute>
                     <Layout>
                       <Settings />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/subscriptions"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Subscriptions />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/permissions"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Permissions />
                     </Layout>
                   </ProtectedRoute>
                 }
