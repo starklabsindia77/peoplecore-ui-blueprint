@@ -79,9 +79,9 @@ export default function Training() {
 
   const getStatusBadge = (status: Training["status"]) => {
     const variants = {
-      pending: "warning",
-      approved: "success",
-      rejected: "destructive",
+      pending: "secondary", // Changed from "warning" to a valid variant
+      approved: "default",  // Changed from "success" to a valid variant
+      rejected: "destructive", // This was already a valid variant
     };
     return <Badge variant={variants[status]}>{status}</Badge>;
   };
