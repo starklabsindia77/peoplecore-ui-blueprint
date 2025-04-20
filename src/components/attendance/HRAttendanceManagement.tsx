@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
+import { AttendanceCheckInOut } from "./AttendanceCheckInOut";
 
 interface AttendanceRecord {
   employeeId: string;
@@ -17,6 +18,12 @@ interface AttendanceRecord {
 
 export function HRAttendanceManagement() {
   const { user } = useAuth();
+  const [hrAttendance, setHrAttendance] = useState({
+    isCheckedIn: false,
+    lastCheckIn: undefined,
+    lastCheckOut: undefined,
+  });
+  
   const [records, setRecords] = useState<AttendanceRecord[]>([
     {
       employeeId: "1",
@@ -36,6 +43,24 @@ export function HRAttendanceManagement() {
     }
   ]);
 
+  const handleHRCheckIn = () => {
+    const now = new Date().toLocaleTimeString();
+    setHrAttendance({
+      isCheckedIn: true,
+      lastCheckIn: now,
+      lastCheckOut: undefined,
+    });
+  };
+
+  const handleHRCheckOut = () => {
+    const now = new Date().toLocaleTimeString();
+    setHrAttendance({
+      isCheckedIn: false,
+      lastCheckIn: hrAttendance.lastCheckIn,
+      lastCheckOut: now,
+    });
+  };
+
   const handleMarkAttendance = (employeeId: string, action: "checkIn" | "checkOut") => {
     const now = new Date().toLocaleTimeString();
     setRecords(records.map(record => {
@@ -51,67 +76,85 @@ export function HRAttendanceManagement() {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Daily Attendance Management</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Employee</TableHead>
-              <TableHead>Department</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Check In</TableHead>
-              <TableHead>Check Out</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {records.map((record) => (
-              <TableRow key={record.employeeId}>
-                <TableCell>{record.employeeName}</TableCell>
-                <TableCell>{record.department}</TableCell>
-                <TableCell>{record.date}</TableCell>
-                <TableCell>{record.checkIn || "-"}</TableCell>
-                <TableCell>{record.checkOut || "-"}</TableCell>
-                <TableCell>
-                  <span className={`px-2 py-1 rounded-full text-xs ${
-                    record.status === "Present" 
-                      ? "bg-green-100 text-green-800"
-                      : record.status === "Late"
-                      ? "bg-yellow-100 text-yellow-800"
-                      : "bg-red-100 text-red-800"
-                  }`}>
-                    {record.status}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  {!record.checkIn ? (
-                    <Button 
-                      size="sm" 
-                      onClick={() => handleMarkAttendance(record.employeeId, "checkIn")}
-                    >
-                      Mark Check In
-                    </Button>
-                  ) : !record.checkOut ? (
-                    <Button 
-                      size="sm" 
-                      variant="outline"
-                      onClick={() => handleMarkAttendance(record.employeeId, "checkOut")}
-                    >
-                      Mark Check Out
-                    </Button>
-                  ) : (
-                    "Completed"
-                  )}
-                </TableCell>
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>My Attendance</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <AttendanceCheckInOut
+            employeeId={user?.id || ""}
+            isCheckedIn={hrAttendance.isCheckedIn}
+            lastCheckIn={hrAttendance.lastCheckIn}
+            lastCheckOut={hrAttendance.lastCheckOut}
+            onCheckIn={handleHRCheckIn}
+            onCheckOut={handleHRCheckOut}
+          />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Employee Attendance Management</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Employee</TableHead>
+                <TableHead>Department</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Check In</TableHead>
+                <TableHead>Check Out</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+            </TableHeader>
+            <TableBody>
+              {records.map((record) => (
+                <TableRow key={record.employeeId}>
+                  <TableCell>{record.employeeName}</TableCell>
+                  <TableCell>{record.department}</TableCell>
+                  <TableCell>{record.date}</TableCell>
+                  <TableCell>{record.checkIn || "-"}</TableCell>
+                  <TableCell>{record.checkOut || "-"}</TableCell>
+                  <TableCell>
+                    <span className={`px-2 py-1 rounded-full text-xs ${
+                      record.status === "Present" 
+                        ? "bg-green-100 text-green-800"
+                        : record.status === "Late"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-red-100 text-red-800"
+                    }`}>
+                      {record.status}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    {!record.checkIn ? (
+                      <Button 
+                        size="sm" 
+                        onClick={() => handleMarkAttendance(record.employeeId, "checkIn")}
+                      >
+                        Mark Check In
+                      </Button>
+                    ) : !record.checkOut ? (
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => handleMarkAttendance(record.employeeId, "checkOut")}
+                      >
+                        Mark Check Out
+                      </Button>
+                    ) : (
+                      "Completed"
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
