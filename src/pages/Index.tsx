@@ -1,14 +1,35 @@
 import { Card } from "@/components/ui/card";
-import { Users, Calendar, FileText, Building, CheckCircle, AlertTriangle, BarChart2, Bell, Briefcase, BookOpen } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RevenueChart } from "@/components/dashboard/RevenueChart";
-import { CompanyStatus } from "@/components/dashboard/CompanyStatus";
+import { HRDashboard } from "@/components/dashboard/HRDashboard";
+import { EmployeeDashboard } from "@/components/dashboard/EmployeeDashboard";
 
 export default function Index() {
   const { user } = useAuth();
   const isPlatformAdmin = user?.role === "platform_admin";
   const isCompanyAdmin = user?.role === "company_admin";
+  const isHR = user?.role === "company_hr";
+
+  if (isHR) {
+    return (
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-semibold text-gray-900">HR Dashboard</h1>
+        </div>
+        <HRDashboard />
+      </div>
+    );
+  }
+
+  if (!isPlatformAdmin && !isCompanyAdmin) {
+    return (
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-semibold text-gray-900">Employee Dashboard</h1>
+        </div>
+        <EmployeeDashboard />
+      </div>
+    );
+  }
 
   // Company admin stats
   const companyStats = [
