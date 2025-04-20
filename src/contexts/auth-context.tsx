@@ -1,10 +1,10 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { User, UserRole } from "@/lib/auth-types";
+import { User, UserRole, Company } from "@/lib/auth-types";
 import { useNavigate } from "react-router-dom";
 
 // Mock companies
-const MOCK_COMPANIES = {
+const MOCK_COMPANIES: Record<string, Company> = {
   "company1": {
     id: "company1",
     name: "Acme Corp",
