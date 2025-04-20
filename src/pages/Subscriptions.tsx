@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -102,8 +101,8 @@ export default function Subscriptions() {
                 <TableCell>{sub.plan}</TableCell>
                 <TableCell>
                   <Badge variant={
-                    sub.status === 'active' ? 'success' :
-                    sub.status === 'trial' ? 'warning' : 'destructive'
+                    sub.status === 'active' ? 'default' :
+                    sub.status === 'trial' ? 'secondary' : 'destructive'
                   }>
                     {sub.status}
                   </Badge>
