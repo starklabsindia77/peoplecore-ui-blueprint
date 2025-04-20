@@ -1,21 +1,48 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
-// Mock attendance data per company
+// Mock attendance data per company with employee information
 const attendanceDataByCompany = {
   company1: [
-    { date: "2025-04-19", status: "Present", timeIn: "09:00", timeOut: "17:30" },
-    { date: "2025-04-18", status: "Present", timeIn: "08:55", timeOut: "17:45" },
-    { date: "2025-04-17", status: "Late", timeIn: "10:15", timeOut: "18:00" },
-    { date: "2025-04-16", status: "Present", timeIn: "09:05", timeOut: "17:30" },
-    { date: "2025-04-15", status: "Absent", timeIn: "-", timeOut: "-" },
-  ],
-  company2: [
-    { date: "2025-04-19", status: "Present", timeIn: "09:15", timeOut: "17:00" },
-    { date: "2025-04-18", status: "Late", timeIn: "10:00", timeOut: "18:00" },
+    { 
+      employeeId: "1",
+      employeeName: "John Doe",
+      department: "Engineering",
+      date: "2025-04-19", 
+      status: "Present", 
+      timeIn: "09:00", 
+      timeOut: "17:30" 
+    },
+    { 
+      employeeId: "2",
+      employeeName: "Jane Smith",
+      department: "Marketing",
+      date: "2025-04-19", 
+      status: "Late", 
+      timeIn: "10:15", 
+      timeOut: "18:00" 
+    },
+    { 
+      employeeId: "3",
+      employeeName: "Mike Johnson",
+      department: "Sales",
+      date: "2025-04-19", 
+      status: "Present", 
+      timeIn: "08:55", 
+      timeOut: "17:45" 
+    },
   ],
 };
 
@@ -25,12 +52,13 @@ export default function Attendance() {
   if (!user) return null;
 
   const attendanceData = attendanceDataByCompany[user.companyId] || [];
+  const isCompanyAdmin = user.role === "company_admin";
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-semibold">Attendance</h1>
+          <h1 className="text-3xl font-semibold">Attendance Management</h1>
           <p className="text-sm text-gray-500">
             Company: {user.company.name}
           </p>
@@ -49,47 +77,53 @@ export default function Attendance() {
         </div>
       </div>
 
-      {user.company.subscriptionStatus === 'trial' && (
-        <Alert>
-          <AlertTitle>Trial Period</AlertTitle>
-          <AlertDescription>
-            Your company's trial period ends on {user.company.trialEndsAt}. Upgrade to continue accessing all features.
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {user.company.subscriptionStatus === 'expired' && (
-        <Alert variant="destructive">
-          <AlertTitle>Subscription Expired</AlertTitle>
-          <AlertDescription>
-            Your company's subscription has expired. Please renew to continue accessing attendance features.
-          </AlertDescription>
-        </Alert>
+      {isCompanyAdmin && (
+        <div className="flex gap-4 items-center">
+          <div className="w-[200px]">
+            <Select defaultValue="all">
+              <SelectTrigger>
+                <SelectValue placeholder="Filter by Department" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Departments</SelectItem>
+                <SelectItem value="engineering">Engineering</SelectItem>
+                <SelectItem value="marketing">Marketing</SelectItem>
+                <SelectItem value="sales">Sales</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex-1">
+            <Input placeholder="Search by employee name..." />
+          </div>
+        </div>
       )}
 
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Present Days</CardTitle>
+            <CardTitle className="text-sm font-medium">Present Today</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">18</div>
+            <div className="text-2xl font-bold">28</div>
+            <p className="text-xs text-gray-500">Out of 30 employees</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Late Days</CardTitle>
+            <CardTitle className="text-sm font-medium">Late Today</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">2</div>
+            <p className="text-xs text-gray-500">6.67% of workforce</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Absent Days</CardTitle>
+            <CardTitle className="text-sm font-medium">Absent Today</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1</div>
+            <div className="text-2xl font-bold">0</div>
+            <p className="text-xs text-gray-500">0% of workforce</p>
           </CardContent>
         </Card>
         <Card>
@@ -98,29 +132,33 @@ export default function Attendance() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">8.5</div>
+            <p className="text-xs text-gray-500">Hours per day</p>
           </CardContent>
         </Card>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Recent Attendance</CardTitle>
+          <CardTitle>Today's Attendance</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="relative w-full overflow-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
-                  <th className="px-4 py-3 text-left">Date</th>
+                  <th className="px-4 py-3 text-left">Employee</th>
+                  <th className="px-4 py-3 text-left">Department</th>
                   <th className="px-4 py-3 text-left">Status</th>
                   <th className="px-4 py-3 text-left">Time In</th>
                   <th className="px-4 py-3 text-left">Time Out</th>
+                  {isCompanyAdmin && <th className="px-4 py-3 text-left">Actions</th>}
                 </tr>
               </thead>
               <tbody>
                 {attendanceData.map((record, index) => (
                   <tr key={index} className="border-b">
-                    <td className="px-4 py-3">{record.date}</td>
+                    <td className="px-4 py-3">{record.employeeName}</td>
+                    <td className="px-4 py-3">{record.department}</td>
                     <td className="px-4 py-3">
                       <span
                         className={`px-2 py-1 rounded-full text-xs ${
@@ -136,6 +174,13 @@ export default function Attendance() {
                     </td>
                     <td className="px-4 py-3">{record.timeIn}</td>
                     <td className="px-4 py-3">{record.timeOut}</td>
+                    {isCompanyAdmin && (
+                      <td className="px-4 py-3">
+                        <button className="text-blue-600 hover:text-blue-800">
+                          Edit
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
