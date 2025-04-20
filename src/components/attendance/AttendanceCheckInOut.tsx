@@ -48,12 +48,17 @@ export function AttendanceCheckInOut({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Attendance Check</CardTitle>
+        <CardTitle>Daily Attendance</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <div>
+              <p className="text-sm text-gray-500">Today's Status: 
+                <span className={`ml-2 ${isCheckedIn ? 'text-green-600' : 'text-gray-600'}`}>
+                  {isCheckedIn ? 'Checked In' : 'Not Checked In'}
+                </span>
+              </p>
               {lastCheckIn && (
                 <p className="text-sm text-gray-500">
                   Last Check-in: {lastCheckIn}
