@@ -17,10 +17,32 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useToast } from "@/hooks/use-toast";
+
+const leaveRulesSchema = z.object({
+  annualLeave: z.string().min(1, "Required"),
+  sickLeave: z.string().min(1, "Required"),
+  casualLeave: z.string().min(1, "Required"),
+  maternityLeave: z.string().min(1, "Required"),
+  paternityLeave: z.string().min(1, "Required"),
+  carryForwardDays: z.string().min(1, "Required"),
+  requireApproval: z.boolean(),
+  allowHalfDay: z.boolean(),
+  minDaysAdvance: z.string().min(1, "Required"),
+  approvalWorkflow: z.enum(["single", "multi", "auto"]),
+});
+
+type LeaveRulesValues = z.infer<typeof leaveRulesSchema>;
 
 export function LeaveRulesSettings() {
-  const form = useForm({
+  const { toast } = useToast();
+  
+  const form = useForm<LeaveRulesValues>({
+    resolver: zodResolver(leaveRulesSchema),
     defaultValues: {
       annualLeave: "24",
       sickLeave: "12",
@@ -31,12 +53,16 @@ export function LeaveRulesSettings() {
       requireApproval: true,
       allowHalfDay: true,
       minDaysAdvance: "3",
+      approvalWorkflow: "single",
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: LeaveRulesValues) => {
     console.log("Leave rules updated:", data);
-    // Handle form submission
+    toast({
+      title: "Success",
+      description: "Leave rules have been updated successfully.",
+    });
   };
 
   return (
@@ -49,7 +75,7 @@ export function LeaveRulesSettings() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
@@ -58,7 +84,7 @@ export function LeaveRulesSettings() {
                   <FormItem>
                     <FormLabel>Annual Leave Days</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input type="number" min="0" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -70,7 +96,7 @@ export function LeaveRulesSettings() {
                   <FormItem>
                     <FormLabel>Sick Leave Days</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input type="number" min="0" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -82,7 +108,7 @@ export function LeaveRulesSettings() {
                   <FormItem>
                     <FormLabel>Casual Leave Days</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input type="number" min="0" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -94,12 +120,43 @@ export function LeaveRulesSettings() {
                   <FormItem>
                     <FormLabel>Maternity Leave Days</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input type="number" min="0" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
               />
             </div>
+
+            <FormField
+              control={form.control}
+              name="approvalWorkflow"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Approval Workflow</FormLabel>
+                  <FormControl>
+                    <ToggleGroup
+                      type="single"
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      className="justify-start"
+                    >
+                      <ToggleGroupItem value="single">
+                        Single Approver
+                      </ToggleGroupItem>
+                      <ToggleGroupItem value="multi">
+                        Multiple Approvers
+                      </ToggleGroupItem>
+                      <ToggleGroupItem value="auto">
+                        Auto Approval
+                      </ToggleGroupItem>
+                    </ToggleGroup>
+                  </FormControl>
+                  <FormDescription>
+                    Choose how leave requests should be approved
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
 
             <div className="space-y-4">
               <FormField
@@ -151,7 +208,7 @@ export function LeaveRulesSettings() {
                 <FormItem>
                   <FormLabel>Minimum Days in Advance</FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} />
+                    <Input type="number" min="0" {...field} />
                   </FormControl>
                   <FormDescription>
                     Minimum number of days required to apply for leave in advance

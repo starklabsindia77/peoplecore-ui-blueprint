@@ -22,6 +22,7 @@ import Training from "./pages/Training";
 import HealthSafety from "./pages/HealthSafety";
 import Notifications from "./pages/Notifications";
 import Payroll from "./pages/Payroll";
+import LeaveConfiguration from "./pages/LeaveConfiguration";
 
 // Create a new query client instance
 const queryClient = new QueryClient();
@@ -179,6 +180,16 @@ const App = () => {
                   <ProtectedRoute>
                     <Layout>
                       <Payroll />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/leave-configuration"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <LeaveConfiguration />
                     </Layout>
                   </ProtectedRoute>
                 }
