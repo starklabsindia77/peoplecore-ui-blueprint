@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { isValidSubdomain, formatSubdomain } from '@/utils/subdomain-validation';
-import { Mail, Globe, Building2 } from 'lucide-react';
+import { Mail, Globe, Building2, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Signup() {
