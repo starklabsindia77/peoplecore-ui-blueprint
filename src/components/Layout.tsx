@@ -20,15 +20,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen w-full flex">
         <Sidebar>
           <SidebarHeader className="h-14 flex items-center px-4 bg-[#1a1f2c]">
-            <div className="flex items-center space-x-3">
-              <div className="bg-blue-600 text-white h-8 w-8 rounded-md flex items-center justify-center font-medium text-sm">
-                G
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center space-x-3">
+                <div className="bg-blue-600 text-white h-8 w-8 rounded-md flex items-center justify-center font-medium text-sm">
+                  G
+                </div>
+                <h1 className="text-base font-medium text-gray-100 group-data-[collapsible=icon]:hidden">Gemini Hire</h1>
               </div>
-              <h1 className="text-base font-medium text-gray-100">Gemini Hire</h1>
+              <SidebarTrigger 
+                className="text-gray-400 hover:text-white transition-colors" 
+              />
             </div>
-            <SidebarTrigger 
-              className="ml-auto text-gray-400 hover:text-white transition-colors" 
-            />
           </SidebarHeader>
           <SidebarContent className="bg-[#1a1f2c]">
             <SidebarGroup>

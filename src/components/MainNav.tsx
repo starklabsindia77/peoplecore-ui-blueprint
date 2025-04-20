@@ -38,8 +38,8 @@ export function MainNav() {
                   tooltip={state === "collapsed" ? item.name : undefined}
                 >
                   <Link to={item.href}>
-                    <item.icon className="h-[18px] w-[18px] transition-transform group-hover:scale-105" />
-                    <span className="font-normal text-sm">{item.name}</span>
+                    <item.icon className="h-5 w-5 transition-transform group-hover:scale-105" />
+                    <span className="font-normal text-sm ml-3">{item.name}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -50,9 +50,9 @@ export function MainNav() {
 
       {orgNavigation.length > 0 && (
         <>
-          <SidebarSeparator className="my-3" />
+          <SidebarSeparator className="my-3 bg-gray-700/30" />
           <SidebarGroup>
-            <SidebarGroupLabel className="text-xs font-medium text-gray-500 px-4 mb-2">
+            <SidebarGroupLabel className="text-xs font-medium text-gray-500 px-4 mb-2 group-data-[collapsible=icon]:opacity-0">
               Organization
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -66,8 +66,8 @@ export function MainNav() {
                       tooltip={state === "collapsed" ? item.name : undefined}
                     >
                       <Link to={item.href}>
-                        <item.icon className="h-[18px] w-[18px] transition-transform group-hover:scale-105" />
-                        <span className="font-normal text-sm">{item.name}</span>
+                        <item.icon className="h-5 w-5 transition-transform group-hover:scale-105" />
+                        <span className="font-normal text-sm ml-3">{item.name}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
