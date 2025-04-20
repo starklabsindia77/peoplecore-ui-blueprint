@@ -37,7 +37,7 @@ export function AdminLayout({ children, title, actions }: AdminLayoutProps) {
               <Breadcrumb className="mb-2">
                 <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink asChild>
+                    <BreadcrumbLink asChild className="text-primary hover:text-primary-dark">
                       <Link to="/">Dashboard</Link>
                     </BreadcrumbLink>
                   </BreadcrumbItem>
@@ -48,7 +48,7 @@ export function AdminLayout({ children, title, actions }: AdminLayoutProps) {
                       {index === breadcrumbs.length - 1 ? (
                         <BreadcrumbPage>{crumb.label}</BreadcrumbPage>
                       ) : (
-                        <BreadcrumbLink asChild>
+                        <BreadcrumbLink asChild className="text-primary hover:text-primary-dark">
                           <Link to={`/${breadcrumbs.slice(0, index + 1).map(b => b.path).join('/')}`}>
                             {crumb.label}
                           </Link>
@@ -60,7 +60,7 @@ export function AdminLayout({ children, title, actions }: AdminLayoutProps) {
               </Breadcrumb>
             )}
             
-            <h1 className="text-2xl font-bold tracking-tight">{title || breadcrumbs[breadcrumbs.length - 1]?.label || "Dashboard"}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">{title || breadcrumbs[breadcrumbs.length - 1]?.label || "Dashboard"}</h1>
           </div>
           
           {actions && (

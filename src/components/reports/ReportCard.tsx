@@ -12,21 +12,21 @@ export function ReportCard({ report }: ReportCardProps) {
   const Icon = report.icon;
 
   return (
-    <Card className="bg-white hover:shadow-lg transition-shadow">
+    <Card className="hover:shadow-lg transition-shadow">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center space-x-2">
-          <div className="p-2 bg-blue-50 rounded-lg">
-            <Icon className="h-4 w-4 text-blue-600" />
+          <div className="p-2 bg-primary-light rounded-lg">
+            <Icon className="h-4 w-4 text-primary-dark" />
           </div>
-          <CardTitle className="text-base font-medium">
+          <CardTitle className="text-base font-medium text-foreground">
             {report.name}
           </CardTitle>
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-gray-500 mb-4">{report.description}</p>
+        <p className="text-sm text-muted mb-4">{report.description}</p>
         <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">
+          <span className="text-xs text-muted">
             Last generated: {report.lastGenerated}
           </span>
           <Button variant="outline" size="sm" className="h-8">

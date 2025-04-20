@@ -13,8 +13,8 @@ export default function Reports() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Reports</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-2xl font-semibold text-foreground">Reports</h1>
+          <p className="text-sm text-muted mt-1">
             {isPlatformAdmin 
               ? "Generate and download platform analytics reports"
               : "Generate and download company reports"
@@ -24,7 +24,7 @@ export default function Reports() {
       </div>
 
       <Tabs defaultValue="all" className="w-full">
-        <TabsList className="bg-white border">
+        <TabsList className="bg-background border">
           <TabsTrigger value="all">All Reports</TabsTrigger>
           {isPlatformAdmin ? (
             <>

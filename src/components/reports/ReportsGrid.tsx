@@ -14,9 +14,15 @@ export function ReportsGrid({ reports, category }: ReportsGridProps) {
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {filteredReports.map((report) => (
-        <ReportCard key={report.id} report={report} />
-      ))}
+      {filteredReports.length > 0 ? (
+        filteredReports.map((report) => (
+          <ReportCard key={report.id} report={report} />
+        ))
+      ) : (
+        <div className="col-span-full text-center py-10 text-muted">
+          No reports found in this category.
+        </div>
+      )}
     </div>
   );
 }
