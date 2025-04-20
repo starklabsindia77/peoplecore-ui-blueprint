@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/auth-context";
 import { Layout } from "./components/Layout";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
@@ -25,53 +26,72 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route 
+              path="/login" 
+              element={
+                <ProtectedRoute requireAuth={false}>
+                  <Login />
+                </ProtectedRoute>
+              } 
+            />
             <Route
               path="/"
               element={
-                <Layout>
-                  <Index />
-                </Layout>
+                <ProtectedRoute>
+                  <Layout>
+                    <Index />
+                  </Layout>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/employees"
               element={
-                <Layout>
-                  <Employees />
-                </Layout>
+                <ProtectedRoute>
+                  <Layout>
+                    <Employees />
+                  </Layout>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/attendance"
               element={
-                <Layout>
-                  <Attendance />
-                </Layout>
+                <ProtectedRoute>
+                  <Layout>
+                    <Attendance />
+                  </Layout>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/leave"
               element={
-                <Layout>
-                  <Leave />
-                </Layout>
+                <ProtectedRoute>
+                  <Layout>
+                    <Leave />
+                  </Layout>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/reports"
               element={
-                <Layout>
-                  <Reports />
-                </Layout>
+                <ProtectedRoute>
+                  <Layout>
+                    <Reports />
+                  </Layout>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/settings"
               element={
-                <Layout>
-                  <Settings />
-                </Layout>
+                <ProtectedRoute>
+                  <Layout>
+                    <Settings />
+                  </Layout>
+                </ProtectedRoute>
               }
             />
             <Route path="*" element={<NotFound />} />
