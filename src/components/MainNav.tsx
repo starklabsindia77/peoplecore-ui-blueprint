@@ -30,7 +30,7 @@ export function MainNav() {
               <SidebarMenuButton
                 asChild
                 isActive={location.pathname === item.href}
-                className="hover:bg-gray-50"
+                className="hover:bg-white/10 text-gray-300"
               >
                 <Link to={item.href}>
                   <item.icon className="h-4 w-4" />
