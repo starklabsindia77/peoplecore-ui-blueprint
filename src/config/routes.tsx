@@ -1,4 +1,3 @@
-
 import { RouteObject } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import Index from "@/pages/Index";
@@ -27,6 +26,8 @@ import Performance from "@/pages/Performance";
 import Expenses from "@/pages/Expenses";
 import Announcements from "@/pages/Announcements";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import ResetPassword from "@/pages/ResetPassword";
+import ForgotPassword from "@/pages/ForgotPassword";
 
 export const routes: RouteObject[] = [
   {
@@ -34,6 +35,22 @@ export const routes: RouteObject[] = [
     element: (
       <ProtectedRoute requireAuth={false}>
         <Login />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/forgot-password",
+    element: (
+      <ProtectedRoute requireAuth={false}>
+        <ForgotPassword />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/reset-password",
+    element: (
+      <ProtectedRoute requireAuth={false}>
+        <ResetPassword />
       </ProtectedRoute>
     ),
   },
@@ -207,7 +224,6 @@ export const routes: RouteObject[] = [
       </ProtectedRoute>
     ),
   },
-  // New employee role routes
   {
     path: "/profile",
     element: (
