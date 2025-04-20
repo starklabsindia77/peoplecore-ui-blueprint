@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Shield, Building, CreditCard, FileText } from "lucide-react";
+import { SalaryLeaveSettings } from "@/components/settings/SalaryLeaveSettings";
 
 export default function Settings() {
   const { user } = useAuth();
@@ -329,6 +330,7 @@ export default function Settings() {
         <TabsList>
           <TabsTrigger value="company">Company</TabsTrigger>
           <TabsTrigger value="employees">Employees</TabsTrigger>
+          <TabsTrigger value="salary">Salary & Leave</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
         </TabsList>
 
@@ -429,6 +431,10 @@ export default function Settings() {
               </Form>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="salary">
+          <SalaryLeaveSettings />
         </TabsContent>
 
         <TabsContent value="notifications">
