@@ -27,11 +27,11 @@ export function MainNav() {
               <SidebarMenuButton
                 asChild
                 isActive={location.pathname === item.href}
-                className="hover:bg-white/10 text-gray-300"
+                className="hover:bg-white/10 text-gray-300 group"
                 tooltip={state === "collapsed" ? item.name : undefined}
               >
                 <Link to={item.href}>
-                  <item.icon className="h-4 w-4" />
+                  <item.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
                   <span className="font-medium">{item.name}</span>
                 </Link>
               </SidebarMenuButton>
