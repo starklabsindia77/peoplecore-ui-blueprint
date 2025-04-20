@@ -7,7 +7,6 @@ import {
   FormDescription,
 } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { UseFormReturn } from "react-hook-form";
 import { LeaveRulesValues } from "./types";
 
@@ -20,25 +19,20 @@ export function LeaveAllocationSettings({ form }: LeaveAllocationSettingsProps) 
     <div className="space-y-4">
       <FormField
         control={form.control}
-        name="leaveAllocationFrequency"
+        name="carryForwardDays"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Allocation Frequency</FormLabel>
+            <FormLabel>Carry Forward Days</FormLabel>
             <FormControl>
-              <ToggleGroup
-                type="single"
-                value={field.value}
-                onValueChange={field.onChange}
-                className="justify-start"
-              >
-                <ToggleGroupItem value="monthly">Monthly</ToggleGroupItem>
-                <ToggleGroupItem value="quarterly">Quarterly</ToggleGroupItem>
-                <ToggleGroupItem value="half_yearly">Half Yearly</ToggleGroupItem>
-                <ToggleGroupItem value="yearly">Yearly</ToggleGroupItem>
-              </ToggleGroup>
+              <input 
+                type="number" 
+                min="0"
+                className="w-full p-2 border rounded" 
+                {...field} 
+              />
             </FormControl>
             <FormDescription>
-              Choose how often leave days should be allocated to employees
+              Maximum number of leave days that can be carried forward to the next year
             </FormDescription>
           </FormItem>
         )}
