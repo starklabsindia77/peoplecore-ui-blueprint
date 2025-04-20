@@ -16,10 +16,11 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Holiday } from "./types/holiday";
-import { Calendar } from "lucide-react"; // Fixed import - 'Calendar' starts with uppercase
+import { AddHolidayDialog } from "./AddHolidayDialog";
+import { useState } from "react";
 
-// Sample data - in a real app, this would come from your backend
-const sampleHolidays: Holiday[] = [
+// Sample initial data
+const initialHolidays: Holiday[] = [
   {
     id: "1",
     name: "New Year's Day",
@@ -37,6 +38,12 @@ const sampleHolidays: Holiday[] = [
 ];
 
 export function HolidayManagement() {
+  const [holidays, setHolidays] = useState<Holiday[]>(initialHolidays);
+
+  const handleAddHoliday = (holiday: Holiday) => {
+    setHolidays((prev) => [...prev, holiday]);
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -47,10 +54,7 @@ export function HolidayManagement() {
               Manage public and restricted holidays for the year
             </CardDescription>
           </div>
-          <Button variant="outline" className="gap-2">
-            <Calendar className="h-4 w-4" /> {/* Fixed usage - 'Calendar' used as component */}
-            Add Holiday
-          </Button>
+          <AddHolidayDialog onHolidayAdded={handleAddHoliday} />
         </div>
       </CardHeader>
       <CardContent>
@@ -77,7 +81,7 @@ export function HolidayManagement() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {sampleHolidays.map((holiday) => (
+              {holidays.map((holiday) => (
                 <TableRow key={holiday.id}>
                   <TableCell>{holiday.name}</TableCell>
                   <TableCell>{holiday.date}</TableCell>
